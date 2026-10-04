@@ -111,7 +111,11 @@ a query it has not yet proved is allowed.
 
 ## Deployment
 
-Designed for Vercel. Set the variables below as project environment variables:
+Designed for Vercel. `vercel.json` pins the framework preset to `nextjs` and the
+Node runtime to 22.x, so the project does not depend on what was detected when it
+was first imported.
+
+Set the variables below as project environment variables:
 
 | Variable                | Required | Notes                                                     |
 | ----------------------- | -------- | --------------------------------------------------------- |
@@ -121,6 +125,23 @@ Designed for Vercel. Set the variables below as project environment variables:
 | `CLOUDINARY_CLOUD_NAME` | no        | Enables profile photo uploads.                             |
 | `CLOUDINARY_API_KEY`    | no        |                                                           |
 | `CLOUDINARY_API_SECRET` | no        |                                                           |
+
+### Build & Deployment settings
+
+In **Project Settings → Build & Deployment**, confirm:
+
+- **Framework Preset** is `Next.js`.
+- **Output Directory** is **empty**.
+
+Build settings saved in the dashboard override `vercel.json`. If Output Directory
+is left as `public`, every deploy fails with `No Output Directory named "public"
+found after the Build completed`, because a Next.js build emits to `.next`. Never
+add `outputDirectory` to `vercel.json` for this project.
+
+Also note that Vercel's **Redeploy** button re-runs the commit of the deployment
+you click it on. It does not pick up newer commits. To ship a new commit, either
+rely on automatic deployments for `main`, or trigger a fresh deployment of the
+branch head.
 
 Because sessions are stateless JWTs, no additional collections or services are
 required.
