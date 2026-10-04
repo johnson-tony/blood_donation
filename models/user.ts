@@ -31,6 +31,11 @@ export interface UserDocument {
   /** bcrypt hash. Never selected by default — see the queries in `lib/services`. */
   passwordHash: string;
   profileImage: string | null;
+  /**
+   * Cloudinary asset id behind `profileImage`. Kept so the file can be deleted
+   * or replaced without scanning the folder. Null when a member has no photo.
+   */
+  profileImagePublicId: string | null;
   role: UserRole;
   profileCompleted: boolean;
   profile: UserProfile;
@@ -72,6 +77,11 @@ const userSchema = new Schema<UserDocument>(
       select: false,
     },
     profileImage: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    profileImagePublicId: {
       type: String,
       default: null,
       trim: true,

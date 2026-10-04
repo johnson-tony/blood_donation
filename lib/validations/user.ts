@@ -48,16 +48,6 @@ const phone = z
 const locationField = (label: string, max: number) =>
   z.string().trim().min(2, `Enter your ${label.toLowerCase()}.`).max(max);
 
-const optionalImageUrl = z
-  .string()
-  .trim()
-  .max(2048, "Image address is too long.")
-  .refine(
-    (value) => value === "" || /^https?:\/\/\S+$/i.test(value),
-    "Enter a valid image link starting with http:// or https://.",
-  )
-  .transform((value) => (value === "" ? null : value));
-
 export const signUpSchema = z
   .object({
     name: fullName,
@@ -77,7 +67,8 @@ export const signInSchema = z.object({
 
 export const profileSchema = z.object({
   name: fullName,
-  profileImage: optionalImageUrl,
+  // No `profileImage`: a photo is only ever set by the upload action, so the
+  // profile form cannot point the app at an arbitrary host.
   phone,
   bloodGroup: z.enum(BLOOD_GROUPS, {
     error: "Select your blood group.",

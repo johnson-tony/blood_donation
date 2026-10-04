@@ -146,7 +146,9 @@ export async function updateUserProfile(
     {
       $set: {
         name: input.name.trim(),
-        profileImage: input.profileImage,
+        // `profileImage` is intentionally not writable from the profile form.
+        // Photos are owned by `uploadProfileImageAction`, which is the only
+        // path that can write a Cloudinary-backed image.
         profile,
         profileCompleted: isProfileComplete({
           name: input.name,
@@ -160,9 +162,46 @@ export async function updateUserProfile(
     .exec();
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Data transfer objects                                                     */
-/* -------------------------------------------------------------------------- */
+/**
+ * Points a member at a stored Cloudinary image, or clears it.
+ *
+ * Separate from `updateUserProfile` so the profile form can never write an
+ * arbitrary image address, and so the previous asset id stays available for the
+ * caller to clean up.
+ */
+export async function updateUserProfileImage(
+  userId: string,
+  image: { url: string; publicId: string } | null,
+): Promise<UserRecord | null> {
+  await connectToDatabase();
+
+  return UserModel.findOneAndUpdate(
+    { _id: userId },
+    {
+      $set: {
+        profileImage: image?.url ?? null,
+        profileImagePublicId: image?.publicId ?? null,
+      },
+    },
+    { new: true },
+  )
+    .lean<UserRecord | null>()
+    .exec();
+}
+
+/** Reads the stored asset id so a replacement can delete the old file. */
+export async function getUserProfileImagePublicId(
+  userId: string,
+): Promise<string | null> {
+  await connectToDatabase();
+
+  const user = await UserModel.findById(userId)
+    .select("profileImagePublicId")
+    .lean<{ profileImagePublicId?: string | null } | null>()
+    .exec();
+
+  return optionalString(user?.profileImagePublicId);
+}
 
 export function toSessionUserDTO(user: UserRecord): SessionUserDTO {
   return {

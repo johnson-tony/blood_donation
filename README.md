@@ -36,14 +36,21 @@ displays invented data to stand in for them.
    cp .env.example .env.local
    ```
 
-   Then fill in the two values:
+   Then fill in the values:
 
-   | Variable       | Purpose                                                                    |
-   | -------------- | -------------------------------------------------------------------------- |
-   | `MONGODB_URI`  | Full connection string, **including the database name** in the path.       |
-   | `AUTH_SECRET`  | Secret used to encrypt session tokens. Generate with `npx auth secret`.    |
+   | Variable                   | Purpose                                                                                 |
+   | -------------------------- | --------------------------------------------------------------------------------------- |
+   | `MONGODB_URI`              | Full connection string, **including the database name** in the path.                     |
+   | `AUTH_SECRET`              | Secret used to encrypt session tokens. Generate with `npx auth secret`.                  |
+   | `AUTH_URL`                 | Public origin, no trailing slash. Auth.js builds callback URLs from it.                  |
+   | `CLOUDINARY_CLOUD_NAME`    | Cloudinary cloud name.                                                                   |
+   | `CLOUDINARY_API_KEY`       | Cloudinary API key.                                                                      |
+   | `CLOUDINARY_API_SECRET`    | Cloudinary API secret. **Server only** — never expose this to the browser.               |
 
    `.env.local` is gitignored. `.env.example` is committed and contains no secrets.
+
+   The Cloudinary values are optional. Without them the profile form hides its
+   upload control and members fall back to their initials.
 
 3. Create the first administrator.
 
@@ -104,10 +111,43 @@ a query it has not yet proved is allowed.
 
 ## Deployment
 
-Designed for Vercel. Set `MONGODB_URI` and `AUTH_SECRET` as project environment
-variables. Because sessions are stateless JWTs, no additional collections or
-services are required.
+Designed for Vercel. Set the variables below as project environment variables:
+
+| Variable                | Required | Notes                                                     |
+| ----------------------- | -------- | --------------------------------------------------------- |
+| `MONGODB_URI`           | yes      | Include the database name in the path.                     |
+| `AUTH_SECRET`           | yes      | Generate with `npx auth secret`.                           |
+| `AUTH_URL`              | yes      | The deployment origin, e.g. `https://app.vercel.app`.     |
+| `CLOUDINARY_CLOUD_NAME` | no        | Enables profile photo uploads.                             |
+| `CLOUDINARY_API_KEY`    | no        |                                                           |
+| `CLOUDINARY_API_SECRET` | no        |                                                           |
+
+Because sessions are stateless JWTs, no additional collections or services are
+required.
 
 The MongoDB connection is cached on `globalThis` and pooled conservatively, so
 each serverless instance opens one small pool rather than a connection per
 request.
+
+### Schema
+
+There is no separate migration step: Mongoose creates the collection and its
+indexes on first write. Index creation is disabled in production
+(`autoIndex: false` in `lib/db/connect.ts`), so run a build once against the
+target database, or create the indexes by hand, before going live.
+
+### Profile photos
+
+Uploads go through a Server Action rather than a signed browser upload, so the
+Cloudinary API secret is never sent to the client and there is no public upload
+preset to abuse. Two consequences worth knowing:
+
+- The file passes through the server, so `experimental.serverActions.bodySizeLimit`
+  in `next.config.ts` is raised to `3mb` and the image cap is `2 MB`. Both stay
+  under Vercel's ~4.5 MB request body limit.
+- Photos land in the `blood-donation/profile-images` folder, created implicitly
+  on first upload. The Admin API endpoint for creating folders returns 404 on
+  the Free plan, which is why there is no setup script for it.
+
+Each member has exactly one asset: the Cloudinary `public_id` is their user id,
+so re-uploading replaces the file in place.

@@ -5,11 +5,11 @@ import { useActionState, useState } from "react";
 import { updateProfileAction } from "@/app/actions/profile";
 import { Alert } from "@/components/ui/alert";
 import { Card, CardBody, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ProfileImageField } from "@/components/forms/profile-image-field";
 import { Input } from "@/components/ui/input";
 import { RadioCardGroup } from "@/components/ui/radio-card-group";
 import { Select } from "@/components/ui/select";
 import { SubmitButton } from "@/components/ui/submit-button";
-import { Avatar } from "@/components/ui/avatar";
 import { IDLE_FORM_STATE } from "@/lib/utils/form-action-state";
 import { BLOOD_GROUPS } from "@/lib/constants";
 import type { ProfileDTO } from "@/types/user";
@@ -42,9 +42,6 @@ export function ProfileForm({ profile }: { profile: ProfileDTO }) {
         ? "available"
         : "unavailable",
   );
-  const [imagePreview, setImagePreview] = useState<string | null>(
-    profile.profileImage,
-  );
 
   return (
     <form action={formAction} className="space-y-6">
@@ -65,18 +62,10 @@ export function ProfileForm({ profile }: { profile: ProfileDTO }) {
           <CardTitle>Personal</CardTitle>
         </CardHeader>
         <CardBody className="space-y-5">
-          <div className="flex items-center gap-4">
-            <Avatar
-              name={profile.name}
-              src={imagePreview}
-              size="lg"
-              className="size-16"
-            />
-            <p className="text-sm text-ink-muted">
-              Add a link to a photo so donors recognise you. Leave it empty to use
-              your initials.
-            </p>
-          </div>
+          <ProfileImageField
+            name={profile.name}
+            initialImage={profile.profileImage}
+          />
 
           <Input
             id="name"
@@ -101,22 +90,6 @@ export function ProfileForm({ profile }: { profile: ProfileDTO }) {
             required
             hint="Only shared with a donor or requester after a request connects you."
             error={state.fieldErrors?.phone?.[0]}
-          />
-
-          <Input
-            id="profileImage"
-            name="profileImage"
-            type="url"
-            label="Profile Image"
-            inputMode="url"
-            placeholder="https://example.com/photo.jpg"
-            defaultValue={profile.profileImage ?? ""}
-            optional
-            error={state.fieldErrors?.profileImage?.[0]}
-            onChange={(event) => {
-              const value = event.currentTarget.value.trim();
-              setImagePreview(value.length > 0 ? value : null);
-            }}
           />
         </CardBody>
       </Card>
