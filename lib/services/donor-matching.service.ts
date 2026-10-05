@@ -101,7 +101,10 @@ export async function listMatchesForDonor(donorId: string) {
     .lean()
     .exec();
 
-  return matches.filter((match) => match.requestId && (match.requestId as BloodRequestRecord).status === "open");
+  return matches.filter((match) => {
+    if (!match.requestId || typeof match.requestId !== "object") return false;
+    return "status" in match.requestId && match.requestId.status === "open";
+  });
 }
 
 export async function respondToDonorMatch(
