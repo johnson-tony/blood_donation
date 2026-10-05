@@ -25,7 +25,7 @@ export const userNavigation: NavItem[] = [
   { label: "Need Blood", href: null, icon: IconHeart, ready: false },
   { label: "Donate Blood", href: null, icon: IconDroplet, ready: false },
   { label: "My Requests", href: null, icon: IconClipboard, ready: false },
-  { label: "Notifications", href: null, icon: IconBell, ready: false },
+  { label: "Notifications", href: "/notifications", icon: IconBell, ready: true },
   { label: "Profile", href: "/profile", icon: IconUser, ready: true },
 ];
 
@@ -36,6 +36,6 @@ export const adminNavigation: NavItem[] = [
   { label: "Blood Requests", href: null, icon: IconHeart, ready: false },
   { label: "Blood Camps", href: null, icon: IconCalendar, ready: false },
   { label: "Hospitals", href: null, icon: IconBuilding, ready: false },
-  { label: "Notifications", href: null, icon: IconBell, ready: false },
+  { label: "Notifications", href: "/admin/notifications", icon: IconBell, ready: true },
   { label: "Settings", href: null, icon: IconSettings, ready: false },
 ];
