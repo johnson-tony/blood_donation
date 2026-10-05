@@ -28,8 +28,8 @@ export function buttonClasses({
   className?: string;
 } = {}): string {
   return cn(
-    "inline-flex w-full items-center justify-center gap-2 rounded-lg font-medium",
-    "transition-colors duration-150",
+    "inline-flex w-full items-center justify-center gap-2 rounded-xl font-semibold",
+    "transition-all duration-150 active:scale-[0.99]",
     "disabled:pointer-events-none disabled:opacity-55",
     VARIANTS[variant],
     SIZES[size],
