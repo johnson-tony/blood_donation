@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { IconCheck, IconClipboard, IconDroplet, IconSearch } from "@/components/layout/icons";
+import { IconCheck, IconClipboard, IconDroplet } from "@/components/layout/icons";
 import { buttonClasses } from "@/components/ui/button";
 import { getCurrentUserRecord } from "@/lib/auth/guards";
 import { toProfileDTO } from "@/lib/services/user.service";
