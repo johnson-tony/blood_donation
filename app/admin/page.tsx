@@ -34,12 +34,12 @@ export default async function AdminPage() {
     {
       key: "bloodRequests",
       label: "Blood requests",
-      hint: "Requests arrive with the donor matching feature.",
+      hint: "Donor contact requests created by members.",
     },
     {
       key: "bloodCamps",
       label: "Blood camps",
-      hint: "Camp registration arrives with its own feature.",
+      hint: "All camps currently managed by admins.",
     },
   ];
 
@@ -48,7 +48,7 @@ export default async function AdminPage() {
       <PageHeader
         eyebrow="Admin"
         title="Platform overview"
-        description="Counts come straight from the database. Where a feature has not been built yet, it is reported as missing rather than as zero."
+        description="A live operational view of users, donors, blood requests and blood camps."
         actions={
           <Link
             href="/admin/users"
@@ -87,26 +87,15 @@ export default async function AdminPage() {
       </section>
 
       <section aria-labelledby="admin-scope-heading" className="space-y-3">
-        <h2
-          id="admin-scope-heading"
-          className="text-base font-semibold tracking-tight text-ink"
-        >
-          What this area does today
+        <h2 id="admin-scope-heading" className="text-base font-semibold tracking-tight text-ink">
+          Admin operations
         </h2>
-        <ul className="space-y-2 text-sm leading-relaxed text-ink-muted">
-          <li>
-            Lists every registered account with role, profile status, blood
-            group and location.
-          </li>
-          <li>
-            Reports real counts taken from MongoDB on each page load. Nothing on
-            this page is sampled or cached.
-          </li>
-          <li>
-            Administrative actions — editing accounts, suspending members,
-            managing requests and camps — are not built yet.
-          </li>
-        </ul>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <AdminLink href="/admin/users" label="Manage users" />
+          <AdminLink href="/admin/donors" label="Review donors" />
+          <AdminLink href="/admin/blood-requests" label="Review blood requests" />
+          <AdminLink href="/admin/notifications" label="View notifications" />
+        </div>
       </section>
     </div>
   );
