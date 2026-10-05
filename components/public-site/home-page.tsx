@@ -60,20 +60,20 @@ export function PublicHome() {
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-mahogany-700">Find a donor</p>
                 <h2 className="mt-2 text-2xl font-semibold tracking-tight">Start with what you know.</h2>
                 <p className="mt-2 text-sm leading-6 text-ink-muted">Search by blood group and your nearest location.</p>
-                <div className="mt-7 space-y-4">
+                <form action="/find-blood" method="get" className="mt-7 space-y-4">
                   <label className="block">
                     <span className="mb-2 block text-xs font-semibold text-ink-secondary">Blood group</span>
-                    <select className="h-13 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-medium outline-none transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10" defaultValue="">
+                    <select name="bloodGroup" required className="h-13 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-medium outline-none transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10" defaultValue="">
                       <option value="" disabled>Select blood group</option>
                       {BLOOD_GROUPS.map((group) => <option key={group} value={group}>{group}</option>)}
                     </select>
                   </label>
                   <label className="block">
                     <span className="mb-2 block text-xs font-semibold text-ink-secondary">Location</span>
-                    <input placeholder="Village, locality or district" className="h-13 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-medium outline-none placeholder:text-ink-subtle transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10" />
+                    <input name="locality" placeholder="Village, locality or district" autoComplete="address-level3" className="h-13 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-medium outline-none placeholder:text-ink-subtle transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10" />
                   </label>
-                  <Link href="/sign-up" className={buttonClasses({ size: "lg", className: "mt-2 rounded-2xl" })}>Continue to find donors <ArrowIcon /></Link>
-                </div>
+                  <button type="submit" className={buttonClasses({ size: "lg", className: "mt-2 w-full rounded-2xl" })}>Find available donors <ArrowIcon /></button>
+                </form>
                 <p className="mt-5 text-center text-[0.72rem] leading-5 text-ink-subtle">Donor phone numbers are not publicly exposed. Contact details are shared through the request flow.</p>
               </div>
             </div>
