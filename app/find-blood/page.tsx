@@ -100,7 +100,7 @@ export default async function FindBloodPage({ searchParams }: { searchParams: Se
                   <div className="mt-6 flex items-center gap-2 text-xs font-semibold text-success"><span className="size-2 rounded-full bg-success" /> Available to donate</div>
                   <div className="mt-5 flex items-center justify-between border-t border-line pt-5">
                     <span className="text-xs text-ink-subtle">{donor.state}</span>
-                    <Link href="/sign-in" className="text-sm font-semibold text-mahogany-700 hover:text-mahogany-800">Request blood →</Link>
+                    <Link href={`/request-donor?donorId=${donor.id}`} className="text-sm font-semibold text-mahogany-700 hover:text-mahogany-800">Request blood →</Link>
                   </div>
                 </article>
               ))}
