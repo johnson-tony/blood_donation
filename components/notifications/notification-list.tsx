@@ -1,7 +1,4 @@
-import Link from "next/link";
-
 import { markAllNotificationsReadAction, markNotificationReadAction } from "@/app/actions/notifications";
-import { buttonClasses } from "@/components/ui/button";
 
 type NotificationItem = {
   id: string;
@@ -37,42 +34,28 @@ export function NotificationList({ notifications }: { notifications: Notificatio
         </section>
       ) : (
         <section className="divide-y divide-line overflow-hidden rounded-[28px] border border-line bg-surface shadow-card">
-          {notifications.map((notification) => {
-            const content = (
-              <div className="flex gap-4 p-5 sm:p-6">
-                <span className={"mt-1.5 size-2.5 shrink-0 rounded-full " + (notification.readAt ? "bg-line-strong" : "bg-mahogany-600")} aria-hidden="true" />
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <h2 className={"text-sm font-semibold " + (notification.readAt ? "text-ink-secondary" : "text-ink")}>{notification.title}</h2>
-                    <time dateTime={notification.createdAt.toISOString()} className="text-xs text-ink-subtle">
-                      {notification.createdAt.toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
-                    </time>
+          {notifications.map((notification) => (
+            <div key={notification.id} className={!notification.readAt ? "bg-mahogany-50/40" : undefined}>
+              <form action={markNotificationReadAction}>
+                <input type="hidden" name="id" value={notification.id} />
+                {notification.href ? <input type="hidden" name="href" value={notification.href} /> : null}
+                <button type="submit" className="block w-full text-left">
+                  <div className="flex gap-4 p-5 sm:p-6">
+                    <span className={"mt-1.5 size-2.5 shrink-0 rounded-full " + (notification.readAt ? "bg-line-strong" : "bg-mahogany-600")} aria-hidden="true" />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-baseline justify-between gap-2">
+                        <h2 className={"text-sm font-semibold " + (notification.readAt ? "text-ink-secondary" : "text-ink")}>{notification.title}</h2>
+                        <time dateTime={notification.createdAt.toISOString()} className="text-xs text-ink-subtle">
+                          {notification.createdAt.toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                        </time>
+                      </div>
+                      <p className="mt-1.5 text-sm leading-6 text-ink-secondary">{notification.message}</p>
+                    </div>
                   </div>
-                  <p className="mt-1.5 text-sm leading-6 text-ink-secondary">{notification.message}</p>
-                </div>
-              </div>
-            );
-
-            return (
-              <div key={notification.id} className={!notification.readAt ? "bg-mahogany-50/40" : undefined}>
-                {notification.href ? (
-                  <form action={markNotificationReadAction}>
-                    <input type="hidden" name="id" value={notification.id} />
-                    <button type="submit" className="block w-full text-left">
-                      {content}
-                    </button>
-                  </form>
-                ) : (
-                  <form action={markNotificationReadAction}>
-                    <input type="hidden" name="id" value={notification.id} />
-                    <button type="submit" className="block w-full text-left">
-                      {content}
-                    </button>
-                  </form>
-                )}
-              </div>
-            );
-          })}
+                </button>
+              </form>
+            </div>
+          ))}
         </section>
       )}
     </div>
