@@ -19,6 +19,7 @@ export function PublicHome() {
             <a href="#donate" className="text-sm font-medium text-ink-secondary hover:text-ink">Donate Blood</a>
             <a href="#how-it-works" className="text-sm font-medium text-ink-secondary hover:text-ink">How It Works</a>
             <a href="#camps" className="text-sm font-medium text-ink-secondary hover:text-ink">Blood Camps</a>
+            <Link href="/hospitals" className="text-sm font-medium text-ink-secondary hover:text-ink">Hospitals</Link>
           </nav>
           <div className="flex items-center gap-2.5">
             <Link href="/sign-in" className="hidden rounded-xl px-3.5 py-2 text-sm font-semibold text-ink-secondary hover:bg-surface-muted hover:text-ink sm:inline-flex">Sign in</Link>
