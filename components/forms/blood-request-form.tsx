@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { BLOOD_GROUPS } from "@/lib/constants";
 import { IDLE_FORM_STATE } from "@/lib/utils/form-action-state";
-import type { FormActionState } from "@/lib/utils/form-action-state";
 
 const URGENCY = [
   { value: "critical", title: "Critical", copy: "Needed immediately or within hours.", badge: "Emergency" },
