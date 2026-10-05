@@ -1,6 +1,7 @@
 import "server-only";
 
 import { connectToDatabase } from "@/lib/db/connect";
+import type { BloodGroup } from "@/types/user";
 import { createNotifications, getAdminUserIds } from "@/lib/services/notification.service";
 import BloodContactRequestModel from "@/models/blood-contact-request";
 import UserModel from "@/models/user";
@@ -8,7 +9,7 @@ import UserModel from "@/models/user";
 export async function createBloodContactRequest(input: {
   requesterId: string;
   donorId: string;
-  bloodGroup: string;
+  bloodGroup: BloodGroup;
   hospital: string;
   unitsRequired: number;
   state: string;
