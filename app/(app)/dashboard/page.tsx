@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { IconCheck, IconDroplet, IconSearch } from "@/components/layout/icons";
+import { IconCheck, IconClipboard, IconDroplet, IconSearch } from "@/components/layout/icons";
 import { buttonClasses } from "@/components/ui/button";
 import { getCurrentUserRecord } from "@/lib/auth/guards";
 import { toProfileDTO } from "@/lib/services/user.service";
@@ -67,18 +67,19 @@ export default async function DashboardPage() {
           </div>
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-[22px] border border-line bg-surface p-5 shadow-card">
-            <div className="flex size-10 items-center justify-center rounded-2xl bg-mahogany-50 text-mahogany-700"><IconSearch className="size-5" /></div>
-            <h3 className="mt-4 font-semibold text-ink">Find blood</h3>
-            <p className="mt-1 text-sm leading-5 text-ink-muted">Search for compatible blood near your area.</p>
-            <span className="mt-4 inline-flex rounded-full bg-surface-muted px-2.5 py-1 text-xs font-semibold text-ink-subtle">Coming next</span>
-          </div>
-          <div className="rounded-[22px] border border-line bg-surface p-5 shadow-card">
-            <div className="flex size-10 items-center justify-center rounded-2xl bg-mahogany-50 text-mahogany-700"><IconDroplet className="size-5" /></div>
-            <h3 className="mt-4 font-semibold text-ink">Donate blood</h3>
-            <p className="mt-1 text-sm leading-5 text-ink-muted">Respond to requests that match your blood group.</p>
-            <span className="mt-4 inline-flex rounded-full bg-surface-muted px-2.5 py-1 text-xs font-semibold text-ink-subtle">Coming next</span>
-          </div>
+          <Link href="/requests/new" className="group rounded-[22px] border border-mahogany-200 bg-mahogany-50 p-5 shadow-card transition hover:-translate-y-0.5 hover:border-mahogany-300">
+
+            <div className="flex size-10 items-center justify-center rounded-2xl bg-mahogany-600 text-white"><IconDroplet className="size-5" /></div>
+            <h3 className="mt-4 font-semibold text-ink">I need blood</h3>
+            <p className="mt-1 text-sm leading-5 text-ink-muted">Create a verified request with urgency, hospital and contact details.</p>
+            <span className="mt-4 inline-flex rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-mahogany-700">Create request →</span>
+          </Link>
+          <Link href="/requests" className="rounded-[22px] border border-line bg-surface p-5 shadow-card transition hover:-translate-y-0.5 hover:border-mahogany-300">
+            <div className="flex size-10 items-center justify-center rounded-2xl bg-mahogany-50 text-mahogany-700"><IconClipboard className="size-5" /></div>
+            <h3 className="mt-4 font-semibold text-ink">My requests</h3>
+            <p className="mt-1 text-sm leading-5 text-ink-muted">Track requests, urgency and their current status.</p>
+            <span className="mt-4 inline-flex rounded-full bg-surface-muted px-2.5 py-1 text-xs font-semibold text-ink-subtle">View requests →</span>
+          </Link>
         </div>
       </section>
 
