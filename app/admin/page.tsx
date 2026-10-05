@@ -101,18 +101,4 @@ export default async function AdminPage() {
   );
 }
 
-function StatValue({ metric }: { metric: Metric }) {
-  if (metric.status === "unavailable") {
-    return (
-      <p className="text-xl font-semibold tracking-tight text-ink-subtle">
-        No data yet
-      </p>
-    );
-  }
-
-  return (
-    <p className="text-3xl font-semibold tracking-tight text-ink">
-      {formatNumber(metric.value)}
-    </p>
-  );
-}
+function StatValue({ metric }: { metric: Metric }) {\n  return (\n    <p className="text-3xl font-semibold tracking-tight text-ink">\n      {formatNumber(metric.value)}\n    </p>\n  );\n}\n
