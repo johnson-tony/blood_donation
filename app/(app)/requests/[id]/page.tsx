@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-import { IconCheck, IconClock, IconDroplet, IconBuilding } from "@/components/layout/icons";
+import { IconClock, IconBuilding } from "@/components/layout/icons";
 import { buttonClasses } from "@/components/ui/button";
 import { getCurrentUserRecord } from "@/lib/auth/guards";
 import { getBloodRequestForOwner } from "@/lib/services/blood-request.service";
@@ -16,7 +16,6 @@ export default async function BloodRequestDetailPage({ params }: { params: Promi
 
   if (!request) notFound();
 
-  const statusTone = request.status === "open" ? "bg-success-surface text-success" : "bg-surface-muted text-ink-subtle";
   const urgencyLabel = request.urgency === "critical" ? "Critical" : request.urgency === "urgent" ? "Urgent" : "Planned";
 
   return (
