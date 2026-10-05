@@ -278,6 +278,34 @@ export async function listUsers(options?: {
 }
 
 /** Real counts only. A missing collection simply reports zero. */
+
+export async function listDonors(options?: {
+  limit?: number;
+  skip?: number;
+}): Promise<AdminUserListDTO> {
+  await connectToDatabase();
+
+  const limit = Math.min(Math.max(options?.limit ?? 50, 1), 200);
+  const skip = Math.max(options?.skip ?? 0, 0);
+  const filter = {
+    role: "USER",
+    profileCompleted: true,
+    "profile.availableToDonate": true,
+  };
+
+  const [users, total] = await Promise.all([
+    UserModel.find(filter)
+      .sort({ updatedAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean<UserRecord[]>()
+      .exec(),
+    UserModel.countDocuments(filter).exec(),
+  ]);
+
+  return { users: users.map(toAdminUserRowDTO), total };
+}
+
 export async function countUsers(
   filter: Record<string, unknown> = {},
 ): Promise<number> {
