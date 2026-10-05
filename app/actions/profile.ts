@@ -47,6 +47,10 @@ export async function updateProfileAction(
   revalidatePath("/dashboard");
   revalidatePath("/profile");
 
+  if (formData.get("onboarding") === "true") {
+    redirect("/dashboard");
+  }
+
   return {
     status: "success",
     message: "Your profile has been saved.",
