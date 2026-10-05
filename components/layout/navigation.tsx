@@ -7,7 +7,6 @@ import {
   IconDroplet,
   IconHeart,
   IconSearch,
-  IconSettings,
   IconUser,
   IconUsers,
 } from "@/components/layout/icons";
@@ -34,10 +33,9 @@ export const userNavigation: NavItem[] = [
 export const adminNavigation: NavItem[] = [
   { label: "Dashboard", href: "/admin", icon: IconDashboard, ready: true },
   { label: "Users", href: "/admin/users", icon: IconUsers, ready: true },
-  { label: "Donors", href: null, icon: IconDroplet, ready: false },
-  { label: "Blood Requests", href: null, icon: IconHeart, ready: false },
+  { label: "Donors", href: "/admin/donors", icon: IconDroplet, ready: true },
+  { label: "Blood Requests", href: "/admin/blood-requests", icon: IconHeart, ready: true },
   { label: "Blood Camps", href: "/admin/blood-camps", icon: IconCalendar, ready: true },
   { label: "Hospitals", href: "/admin/hospitals", icon: IconBuilding, ready: true },
   { label: "Notifications", href: "/admin/notifications", icon: IconBell, ready: true },
-  { label: "Settings", href: null, icon: IconSettings, ready: false },
 ];
