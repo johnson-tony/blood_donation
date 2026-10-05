@@ -41,3 +41,15 @@ export async function createBloodRequestAction(
 
   redirect(`/requests/${request.id}`);
 }
+
+
+export async function cancelBloodRequestAction(formData: FormData): Promise<void> {
+  const user = await requireUser();
+  const requestId = String(formData.get("requestId") ?? "").trim();
+  if (!requestId) return;
+
+  const { cancelBloodRequest } = await import("@/lib/services/blood-request.service");
+  await cancelBloodRequest(user.id, requestId);
+  revalidatePath("/requests");
+  revalidatePath(`/requests/${requestId}`);
+}
