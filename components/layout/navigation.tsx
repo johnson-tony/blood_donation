@@ -24,6 +24,7 @@ export const userNavigation: NavItem[] = [
   { label: "Find Blood", href: null, icon: IconSearch, ready: false },
   { label: "Need Blood", href: null, icon: IconHeart, ready: false },
   { label: "Donate Blood", href: null, icon: IconDroplet, ready: false },
+  { label: "Hospitals", href: "/hospitals", icon: IconBuilding, ready: true },
   { label: "Blood Camps", href: "/blood-camps", icon: IconCalendar, ready: true },
   { label: "My Requests", href: null, icon: IconClipboard, ready: false },
   { label: "Notifications", href: "/notifications", icon: IconBell, ready: true },
@@ -36,7 +37,7 @@ export const adminNavigation: NavItem[] = [
   { label: "Donors", href: null, icon: IconDroplet, ready: false },
   { label: "Blood Requests", href: null, icon: IconHeart, ready: false },
   { label: "Blood Camps", href: "/admin/blood-camps", icon: IconCalendar, ready: true },
-  { label: "Hospitals", href: null, icon: IconBuilding, ready: false },
+  { label: "Hospitals", href: "/admin/hospitals", icon: IconBuilding, ready: true },
   { label: "Notifications", href: "/admin/notifications", icon: IconBell, ready: true },
   { label: "Settings", href: null, icon: IconSettings, ready: false },
 ];
