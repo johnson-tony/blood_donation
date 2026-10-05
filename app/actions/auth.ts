@@ -136,7 +136,7 @@ export async function signUpAction(
   }
 
   // Public registration always produces a standard member account.
-  redirect("/dashboard");
+  redirect("/onboarding");
 }
 
 export async function signOutAction(): Promise<void> {
