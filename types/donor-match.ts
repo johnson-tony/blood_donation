@@ -14,6 +14,22 @@ export type DonorMatchDTO = {
   compatibility: "exact";
 };
 
+export type DonorOpportunityDTO = {
+  id: string;
+  requestId: string;
+  bloodGroup: BloodGroup;
+  units: number;
+  urgency: "critical" | "urgent" | "standard";
+  neededBy: string;
+  hospitalName: string;
+  state: string;
+  district: string;
+  locality: string;
+  patientRelation: string;
+  note: string | null;
+  status: "open";
+};
+
 export type DonorMatchListDTO = {
   requestId: string;
   matches: DonorMatchDTO[];
