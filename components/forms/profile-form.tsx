@@ -4,171 +4,88 @@ import { useActionState, useState } from "react";
 
 import { updateProfileAction } from "@/app/actions/profile";
 import { Alert } from "@/components/ui/alert";
-import { Card, CardBody, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ProfileImageField } from "@/components/forms/profile-image-field";
 import { Input } from "@/components/ui/input";
-import { RadioCardGroup } from "@/components/ui/radio-card-group";
-import { Select } from "@/components/ui/select";
+import { ProfileImageField } from "@/components/forms/profile-image-field";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { IDLE_FORM_STATE } from "@/lib/utils/form-action-state";
 import { BLOOD_GROUPS } from "@/lib/constants";
 import type { ProfileDTO } from "@/types/user";
 
-const BLOOD_GROUP_OPTIONS = BLOOD_GROUPS.map((group) => ({
-  value: group,
-  label: group,
-}));
-
 const AVAILABILITY_OPTIONS = [
-  {
-    value: "available",
-    title: "Available to Donate",
-    description: "You can be contacted when someone near you needs blood.",
-    tone: "positive",
-  },
-  {
-    value: "unavailable",
-    title: "Not Available",
-    description: "Keep your details on file but do not contact you right now.",
-  },
-] as const;
+  { value: "available" as const, title: "Available to donate", description: "Let compatible requests know you can help." },
+  { value: "unavailable" as const, title: "Not available", description: "Keep your profile private from active matching." },
+];
 
 export function ProfileForm({ profile }: { profile: ProfileDTO }) {
   const [state, formAction] = useActionState(updateProfileAction, IDLE_FORM_STATE);
+  const [bloodGroup, setBloodGroup] = useState(profile.bloodGroup ?? "");
   const [availability, setAvailability] = useState<"" | "available" | "unavailable">(
-    profile.availableToDonate === null
-      ? ""
-      : profile.availableToDonate
-        ? "available"
-        : "unavailable",
+    profile.availableToDonate === null ? "" : profile.availableToDonate ? "available" : "unavailable",
   );
 
   return (
     <form action={formAction} className="space-y-6">
-      {state.status === "error" ? (
-        <Alert tone="error" title="Profile not saved">
-          {state.message}
-        </Alert>
-      ) : null}
+      {state.status === "error" ? <Alert tone="error" title="Profile not saved">{state.message}</Alert> : null}
+      {state.status === "success" ? <Alert tone="success" title="Profile updated">{state.message}</Alert> : null}
 
-      {state.status === "success" ? (
-        <Alert tone="success" title="Saved">
-          {state.message}
-        </Alert>
-      ) : null}
+      <section className="overflow-hidden rounded-[28px] bg-mahogany-700 p-6 text-white shadow-overlay sm:p-8">
+        <div className="flex items-center gap-4">
+          <ProfileImageField name={profile.name} initialImage={profile.profileImage} />
+          <div className="min-w-0">
+            <p className="text-xs font-bold uppercase tracking-[0.15em] text-mahogany-100">Donor profile</p>
+            <h1 className="mt-1 truncate text-2xl font-bold tracking-tight">{profile.name}</h1>
+            <p className="mt-1 text-sm text-white/65">{profile.email}</p>
+          </div>
+        </div>
+        <div className="mt-7 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl bg-white/10 p-4"><p className="text-xs text-white/60">Blood group</p><p className="mt-1 text-2xl font-bold">{bloodGroup || "—"}</p></div>
+          <div className="rounded-2xl bg-white/10 p-4"><p className="text-xs text-white/60">Status</p><p className="mt-1 text-sm font-semibold">{availability === "available" ? "Available" : availability === "unavailable" ? "Not available" : "Not set"}</p></div>
+        </div>
+      </section>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Personal</CardTitle>
-        </CardHeader>
-        <CardBody className="space-y-5">
-          <ProfileImageField
-            name={profile.name}
-            initialImage={profile.profileImage}
-          />
+      <section className="rounded-[24px] border border-line bg-surface p-5 shadow-card sm:p-6">
+        <div className="mb-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-mahogany-600">Identity</p><h2 className="mt-1 text-lg font-bold text-ink">Personal details</h2></div>
+        <div className="space-y-5">
+          <Input id="name" name="name" type="text" label="Full name" autoComplete="name" defaultValue={profile.name} required error={state.fieldErrors?.name?.[0]} />
+          <Input id="phone" name="phone" type="tel" label="Mobile number" autoComplete="tel" inputMode="tel" placeholder="+91 98765 43210" defaultValue={profile.phone ?? ""} required hint="Used only when a donor connection needs to reach you." error={state.fieldErrors?.phone?.[0]} />
+        </div>
+      </section>
 
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            label="Full Name"
-            autoComplete="name"
-            defaultValue={profile.name}
-            required
-            error={state.fieldErrors?.name?.[0]}
-          />
+      <section className="rounded-[24px] border border-line bg-surface p-5 shadow-card sm:p-6">
+        <div className="mb-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-mahogany-600">Compatibility</p><h2 className="mt-1 text-lg font-bold text-ink">Blood group</h2></div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {BLOOD_GROUPS.map((group) => {
+            const selected = bloodGroup === group;
+            return <button key={group} type="button" onClick={() => setBloodGroup(group)} aria-pressed={selected} className={`min-h-20 rounded-[20px] border font-bold transition-all active:scale-[0.98] ${selected ? "border-mahogany-600 bg-mahogany-600 text-white shadow-raised" : "border-line bg-canvas text-ink hover:border-mahogany-300"}`}>{group}</button>;
+          })}
+        </div>
+        <input type="hidden" name="bloodGroup" value={bloodGroup} />
+      </section>
 
-          <Input
-            id="phone"
-            name="phone"
-            type="tel"
-            label="Mobile Number"
-            autoComplete="tel"
-            inputMode="tel"
-            placeholder="+91 98765 43210"
-            defaultValue={profile.phone ?? ""}
-            required
-            hint="Only shared with a donor or requester after a request connects you."
-            error={state.fieldErrors?.phone?.[0]}
-          />
-        </CardBody>
-      </Card>
+      <section className="rounded-[24px] border border-line bg-surface p-5 shadow-card sm:p-6">
+        <div className="mb-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-mahogany-600">Visibility</p><h2 className="mt-1 text-lg font-bold text-ink">Donor availability</h2><p className="mt-1 text-sm text-ink-muted">You can change this whenever your situation changes.</p></div>
+        <div className="space-y-3">
+          {AVAILABILITY_OPTIONS.map((option) => {
+            const selected = availability === option.value;
+            return <button key={option.value} type="button" onClick={() => setAvailability(option.value)} aria-pressed={selected} className={`flex w-full items-center gap-4 rounded-[20px] border p-4 text-left transition-all active:scale-[0.99] ${selected ? "border-mahogany-600 bg-mahogany-50" : "border-line bg-canvas"}`}><span className={`flex size-10 shrink-0 items-center justify-center rounded-full border-2 ${selected ? "border-mahogany-600 bg-mahogany-600 text-white" : "border-line-strong"}`}>{selected ? "✓" : ""}</span><span><span className="block text-sm font-semibold text-ink">{option.title}</span><span className="mt-1 block text-sm text-ink-muted">{option.description}</span></span></button>;
+          })}
+        </div>
+        <input type="hidden" name="availability" value={availability} />
+        {state.fieldErrors?.availability?.[0] ? <p className="mt-2 text-sm text-mahogany-700">{state.fieldErrors.availability[0]}</p> : null}
+      </section>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Blood</CardTitle>
-        </CardHeader>
-        <CardBody className="space-y-5">
-          <Select
-            id="bloodGroup"
-            name="bloodGroup"
-            label="Blood Group"
-            options={BLOOD_GROUP_OPTIONS}
-            placeholder="Select your blood group"
-            defaultValue={profile.bloodGroup ?? ""}
-            required
-            error={state.fieldErrors?.bloodGroup?.[0]}
-          />
+      <section className="rounded-[24px] border border-line bg-surface p-5 shadow-card sm:p-6">
+        <div className="mb-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-mahogany-600">Area</p><h2 className="mt-1 text-lg font-bold text-ink">Where can you help?</h2></div>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Input id="state" name="state" type="text" label="State" autoComplete="address-level1" defaultValue={profile.state ?? ""} required error={state.fieldErrors?.state?.[0]} />
+          <Input id="district" name="district" type="text" label="District" autoComplete="address-level2" defaultValue={profile.district ?? ""} required error={state.fieldErrors?.district?.[0]} />
+          <Input id="locality" name="locality" type="text" label="Area / locality" autoComplete="address-level3" containerClassName="sm:col-span-2" defaultValue={profile.locality ?? ""} required hint="A neighbourhood, town or village is enough." error={state.fieldErrors?.locality?.[0]} />
+        </div>
+      </section>
 
-          <RadioCardGroup
-            id="availability"
-            name="availability"
-            legend="Donor availability"
-            hint="You can change this at any time."
-            error={state.fieldErrors?.availability?.[0]}
-            value={availability}
-            options={AVAILABILITY_OPTIONS}
-            onChange={setAvailability}
-          />
-        </CardBody>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Location</CardTitle>
-        </CardHeader>
-        <CardBody className="grid gap-5 sm:grid-cols-2">
-          <Input
-            id="state"
-            name="state"
-            type="text"
-            label="State"
-            autoComplete="address-level1"
-            defaultValue={profile.state ?? ""}
-            required
-            error={state.fieldErrors?.state?.[0]}
-          />
-
-          <Input
-            id="district"
-            name="district"
-            type="text"
-            label="District"
-            autoComplete="address-level2"
-            defaultValue={profile.district ?? ""}
-            required
-            error={state.fieldErrors?.district?.[0]}
-          />
-
-          <Input
-            id="locality"
-            name="locality"
-            type="text"
-            label="Village / Locality"
-            autoComplete="address-level3"
-            containerClassName="sm:col-span-2"
-            defaultValue={profile.locality ?? ""}
-            required
-            hint="Used to rank the closest donors first."
-            error={state.fieldErrors?.locality?.[0]}
-          />
-        </CardBody>
-        <CardFooter>
-          <SubmitButton pendingLabel="Saving…" className="sm:w-auto">
-            Save Profile
-          </SubmitButton>
-        </CardFooter>
-      </Card>
+      <div className="sticky bottom-3 z-10 flex rounded-[22px] border border-line bg-canvas/95 p-2 shadow-overlay backdrop-blur-xl sm:static sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none sm:backdrop-blur-none">
+        <SubmitButton pendingLabel="Saving changes…" size="lg">Save changes</SubmitButton>
+      </div>
     </form>
   );
 }
