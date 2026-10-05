@@ -33,7 +33,7 @@ export const userNavigation: NavItem[] = [
   { label: "Profile", href: "/profile", icon: IconUser, ready: true },
   { label: "Find Blood", icon: IconSearch, ready: false },
   { label: "Request blood", href: "/requests/new", icon: IconHeart, ready: true },
-  { label: "Donate Blood", icon: IconDroplet, ready: false },
+  { label: "Donate Blood", href: "/donor-opportunities", icon: IconDroplet, ready: true },
   { label: "My requests", href: "/requests", icon: IconClipboard, ready: true },
   { label: "Notifications", icon: IconBell, ready: false },
 ];
