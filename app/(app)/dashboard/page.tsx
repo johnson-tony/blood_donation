@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { PageHeader, Section } from "@/components/layout/page-header";
 import { IconCheck } from "@/components/layout/icons";
@@ -18,6 +19,8 @@ export const metadata: Metadata = {
 export default async function DashboardPage() {
   const record = await getCurrentUserRecord();
   const profile = toProfileDTO(record);
+
+  if (record.role !== "ADMIN" && !profile.profileCompleted) redirect("/onboarding");
 
   return (
     <div className="space-y-8">
