@@ -32,9 +32,9 @@ export const userNavigation: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: IconDashboard, ready: true },
   { label: "Profile", href: "/profile", icon: IconUser, ready: true },
   { label: "Find Blood", icon: IconSearch, ready: false },
-  { label: "Need Blood", icon: IconHeart, ready: false },
+  { label: "Request blood", href: "/requests/new", icon: IconHeart, ready: true },
   { label: "Donate Blood", icon: IconDroplet, ready: false },
-  { label: "Requests", icon: IconClipboard, ready: false },
+  { label: "My requests", href: "/requests", icon: IconClipboard, ready: true },
   { label: "Notifications", icon: IconBell, ready: false },
 ];
 
