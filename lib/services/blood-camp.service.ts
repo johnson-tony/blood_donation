@@ -16,9 +16,7 @@ function toDTO(camp: BloodCampRecord): BloodCampDTO {
   };
 }
 
-function escapeRegex(value: string) {
-  return value.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&");
-}
+function escapeRegex(value: string) {\n  return value.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&");\n}
 
 function textFilter(value?: string) {
   const trimmed = value?.trim();
