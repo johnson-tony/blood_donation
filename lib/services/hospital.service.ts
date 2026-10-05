@@ -27,10 +27,7 @@ function toDTO(hospital: HospitalRecord): HospitalDTO {
 }
 
 function escapeRegex(value: string) {
-  return value.replace(/[-/\\^$*+?.()|[\\]{}]/g, "\\function textFilter(value?: string) {
-  const trimmed = value?.trim();
-  return trimmed ? { $regex: trimmed, $options: "i" } : undefined;
-}");
+  return value.replace(/[.*+?^${}()|[\\]\\]/g, (match) => `\\${match}`);
 }
 
 function textFilter(value?: string) {
