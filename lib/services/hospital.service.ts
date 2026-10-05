@@ -26,9 +26,16 @@ function toDTO(hospital: HospitalRecord): HospitalDTO {
   };
 }
 
-function textFilter(value?: string) {
+function escapeRegex(value: string) {
+  return value.replace(/[-/\\^$*+?.()|[\\]{}]/g, "\\function textFilter(value?: string) {
   const trimmed = value?.trim();
   return trimmed ? { $regex: trimmed, $options: "i" } : undefined;
+}");
+}
+
+function textFilter(value?: string) {
+  const trimmed = value?.trim();
+  return trimmed ? { $regex: escapeRegex(trimmed), $options: "i" } : undefined;
 }
 
 function toRecordInput(input: HospitalInput) {
