@@ -101,4 +101,10 @@ export default async function AdminPage() {
   );
 }
 
-function StatValue({ metric }: { metric: Metric }) {\n  return (\n    <p className="text-3xl font-semibold tracking-tight text-ink">\n      {formatNumber(metric.value)}\n    </p>\n  );\n}\n
+function StatValue({ metric }: { metric: Metric }) {
+  return (
+    <p className="text-3xl font-semibold tracking-tight text-ink">
+      {formatNumber(metric.value)}
+    </p>
+  );
+}
