@@ -3,7 +3,7 @@ import { FieldError, Hint } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 
 const CONTROL_BASE =
-  "block w-full rounded-lg border bg-surface px-3 text-[0.9375rem] text-ink placeholder:text-ink-subtle transition-colors duration-150 disabled:cursor-not-allowed disabled:bg-surface-muted disabled:text-ink-muted";
+  "block w-full rounded-2xl border bg-surface px-4 text-[0.9375rem] text-ink placeholder:text-ink-subtle transition-all duration-150 disabled:cursor-not-allowed disabled:bg-surface-muted disabled:text-ink-muted focus:shadow-[0_0_0_4px_rgb(173_40_49_/_0.08)]";
 
 const CONTROL_TONE = (invalid: boolean) =>
   invalid
@@ -84,7 +84,7 @@ export function Input({
           className={cn(
             CONTROL_BASE,
             CONTROL_TONE(invalid),
-            "h-11",
+            "h-12",
           )}
           {...props}
         />
