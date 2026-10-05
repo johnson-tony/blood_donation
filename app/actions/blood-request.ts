@@ -26,11 +26,11 @@ export async function createBloodRequestAction(
     };
   }
 
+  let request;
   try {
-    const request = await createBloodRequest(user.id, parsed.data);
+    request = await createBloodRequest(user.id, parsed.data);
     revalidatePath("/requests");
     revalidatePath("/dashboard");
-    redirect(`/requests/${request.id}`);
   } catch (error) {
     console.error("Failed to create blood request:", error);
     return {
@@ -38,4 +38,6 @@ export async function createBloodRequestAction(
       message: "We could not create the request right now. Please try again.",
     };
   }
+
+  redirect(`/requests/${request.id}`);
 }
