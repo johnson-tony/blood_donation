@@ -58,7 +58,7 @@ export async function createBloodContactRequest(input: {
     type: "BLOOD_CONTACT_REQUEST",
     title: "Someone needs your blood",
     message: (requester?.name ?? "A member") + " requested " + input.bloodGroup + " blood at " + input.hospital + ".",
-    href: "/my-requests/" + requestId,
+    href: "/notifications",
   });
 
   for (const adminId of adminIds) {
