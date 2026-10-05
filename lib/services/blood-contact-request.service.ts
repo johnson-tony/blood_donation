@@ -1,6 +1,7 @@
 import "server-only";
 
 import { connectToDatabase } from "@/lib/db/connect";
+import { createNotifications, getAdminUserIds } from "@/lib/services/notification.service";
 import BloodContactRequestModel from "@/models/blood-contact-request";
 import UserModel from "@/models/user";
 
@@ -17,18 +18,62 @@ export async function createBloodContactRequest(input: {
 }) {
   await connectToDatabase();
 
-  const donor = await UserModel.findOne({
-    _id: input.donorId,
-    role: "USER",
-    profileCompleted: true,
-    "profile.availableToDonate": true,
-    "profile.bloodGroup": input.bloodGroup,
-  }).select("name profile.phone profile.bloodGroup profile.state profile.district profile.locality").lean();
+  const [donor, requester] = await Promise.all([
+    UserModel.findOne({
+      _id: input.donorId,
+      role: "USER",
+      profileCompleted: true,
+      "profile.availableToDonate": true,
+      "profile.bloodGroup": input.bloodGroup,
+    })
+      .select("name profile.phone profile.bloodGroup profile.state profile.district profile.locality")
+      .lean(),
+    UserModel.findOne({ _id: input.requesterId, role: "USER" }).select("name").lean(),
+  ]);
 
   if (!donor || !donor.profile?.phone) throw new Error("This donor is no longer available.");
 
   const request = await BloodContactRequestModel.create(input);
-  return { id: String(request._id) };
+  const requestId = String(request._id);
+  const adminIds = await getAdminUserIds();
+
+  const recipients = new Map<string, {
+    recipientId: string;
+    type: "BLOOD_CONTACT_REQUEST" | "CONTACT_CREATED" | "SYSTEM";
+    title: string;
+    message: string;
+    href?: string;
+  }>();
+
+  recipients.set(input.requesterId, {
+    recipientId: input.requesterId,
+    type: "CONTACT_CREATED",
+    title: "Donor contact created",
+    message: "Your " + input.bloodGroup + " blood request is connected to " + donor.name + ".",
+    href: "/my-requests/" + requestId,
+  });
+
+  recipients.set(input.donorId, {
+    recipientId: input.donorId,
+    type: "BLOOD_CONTACT_REQUEST",
+    title: "Someone needs your blood",
+    message: (requester?.name ?? "A member") + " requested " + input.bloodGroup + " blood at " + input.hospital + ".",
+    href: "/my-requests/" + requestId,
+  });
+
+  for (const adminId of adminIds) {
+    recipients.set(adminId, {
+      recipientId: adminId,
+      type: "BLOOD_CONTACT_REQUEST",
+      title: "New blood contact request",
+      message: (requester?.name ?? "A member") + " requested " + input.bloodGroup + " blood from " + donor.name + ".",
+      href: "/admin/notifications",
+    });
+  }
+
+  await createNotifications([...recipients.values()]);
+
+  return { id: requestId };
 }
 
 export async function getBloodContactRequest(id: string, requesterId: string) {
