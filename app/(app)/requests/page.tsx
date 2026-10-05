@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { IconClock, IconDroplet, IconCheck } from "@/components/layout/icons";
+import { IconDroplet } from "@/components/layout/icons";
 import { buttonClasses } from "@/components/ui/button";
 import { getCurrentUserRecord } from "@/lib/auth/guards";
 import { listMyBloodRequests } from "@/lib/services/blood-request.service";
