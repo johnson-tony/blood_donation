@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth/guards";
 import { connectToDatabase } from "@/lib/db/connect";
 import BloodRequestModel from "@/models/blood-request";
-import { findAndCreateMatches } from "@/lib/services/donor-matching.service";
+import { findAndCreateMatches, respondToDonorMatch } from "@/lib/services/donor-matching.service";
 
 export async function refreshDonorMatchesAction(formData: FormData) {
   const user = await requireUser();
@@ -21,4 +21,16 @@ export async function refreshDonorMatchesAction(formData: FormData) {
   await findAndCreateMatches(request);
   revalidatePath(`/requests/${requestId}`);
   redirect(`/requests/${requestId}`);
+}
+
+export async function respondToDonorMatchAction(formData: FormData) {
+  const user = await requireUser();
+  const matchId = String(formData.get("matchId") ?? "").trim();
+  const response = String(formData.get("response") ?? "");
+
+  if (!matchId || (response !== "accepted" && response !== "declined")) return;
+
+  await respondToDonorMatch(user.id, matchId, response);
+  revalidatePath("/donor-opportunities");
+  revalidatePath("/dashboard");
 }
