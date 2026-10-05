@@ -59,9 +59,18 @@ export function AppShell({
           areaLabel={areaLabel}
         />
 
-        <main id="main-content" className="flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-10">
+        <main id="main-content" className="flex-1 px-4 pb-24 pt-5 sm:px-6 sm:pb-10 sm:pt-8 lg:px-10 lg:pb-10">
           <div className="mx-auto w-full max-w-5xl">{children}</div>
         </main>
+
+        <nav aria-label="Primary mobile navigation" className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-xl lg:hidden">
+          <div className="mx-auto grid max-w-xl grid-cols-2 gap-1">
+            {items.filter((item) => item.ready && item.href).slice(0, 2).map((item) => {
+              const Icon = item.icon;
+              return <a key={item.href} href={item.href} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-2xl text-[0.68rem] font-semibold text-ink-secondary active:bg-mahogany-50"><Icon className="size-5" /><span>{item.label === "Dashboard" ? "Home" : item.label}</span></a>;
+            })}
+          </div>
+        </nav>
       </div>
     </div>
   );
