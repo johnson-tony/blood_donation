@@ -32,8 +32,10 @@ export async function listPublishedBloodCamps(filters: BloodCampFilters = {}): P
   if (filters.state?.trim()) query.state = textFilter(filters.state);
   if (filters.district?.trim()) query.district = textFilter(filters.district);
   if (filters.locality?.trim()) query.locality = textFilter(filters.locality);
-  if (filters.date === "past") query.date = { $lt: new Date() };
-  else if (filters.date !== "all") query.date = { $gte: new Date() };
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  if (filters.date === "past") query.date = { $lt: today };
+  else if (filters.date !== "all") query.date = { $gte: today };
 
   const camps = await BloodCampModel.find(query)
     .sort({ date: 1, startTime: 1 }).limit(100)
