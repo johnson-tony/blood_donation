@@ -26,7 +26,7 @@ export async function createBloodRequestAction(
     };
   }
 
-  let request;
+  let request: Awaited<ReturnType<typeof createBloodRequest>>;
   try {
     request = await createBloodRequest(user.id, parsed.data);
     revalidatePath("/requests");
