@@ -21,12 +21,12 @@ export type NavItem = {
 
 export const userNavigation: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: IconDashboard, ready: true },
-  { label: "Find Blood", href: null, icon: IconSearch, ready: false },
-  { label: "Need Blood", href: null, icon: IconHeart, ready: false },
-  { label: "Donate Blood", href: null, icon: IconDroplet, ready: false },
+  { label: "Find Blood", href: "/find-blood", icon: IconSearch, ready: true },
+  { label: "Need Blood", href: "/need-blood", icon: IconHeart, ready: true },
+  { label: "Donate Blood", href: "/donate-blood", icon: IconDroplet, ready: true },
   { label: "Hospitals", href: "/hospitals", icon: IconBuilding, ready: true },
   { label: "Blood Camps", href: "/blood-camps", icon: IconCalendar, ready: true },
-  { label: "My Requests", href: null, icon: IconClipboard, ready: false },
+  { label: "My Requests", href: "/my-requests", icon: IconClipboard, ready: true },
   { label: "Notifications", href: "/notifications", icon: IconBell, ready: true },
   { label: "Profile", href: "/profile", icon: IconUser, ready: true },
 ];
