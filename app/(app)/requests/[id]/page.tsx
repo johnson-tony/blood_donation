@@ -5,6 +5,7 @@ import Link from "next/link";
 import { IconClock, IconBuilding } from "@/components/layout/icons";
 import { buttonClasses } from "@/components/ui/button";
 import { getCurrentUserRecord } from "@/lib/auth/guards";
+import { cancelBloodRequestAction } from "@/app/actions/blood-request";
 import { getBloodRequestForOwner } from "@/lib/services/blood-request.service";
 
 export const metadata: Metadata = { title: "Blood request" };
@@ -49,8 +50,14 @@ export default async function BloodRequestDetailPage({ params }: { params: Promi
         {request.note ? <div className="mt-5 rounded-2xl bg-canvas p-4 text-sm leading-6 text-ink-muted">{request.note}</div> : null}
       </section>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Link href="/requests" className={buttonClasses({ variant: "secondary", size: "md" })}>All requests</Link>
+        {request.status === "open" ? (
+          <form action={cancelBloodRequestAction}>
+            <input type="hidden" name="requestId" value={request.id} />
+            <button type="submit" className="min-h-11 rounded-xl px-4 text-sm font-semibold text-mahogany-700 hover:bg-mahogany-50">Cancel request</button>
+          </form>
+        ) : null}
       </div>
     </div>
   );
