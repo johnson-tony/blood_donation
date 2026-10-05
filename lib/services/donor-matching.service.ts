@@ -17,9 +17,10 @@ const COMPATIBLE_DONORS: Record<BloodGroup, BloodGroup[]> = {
   "O-": ["O-"],
 };
 
-function scoreDonor(donor: {
-  profile?: { district?: string; state?: string; locality?: string };
-}, request: BloodRequestRecord) {
+function scoreDonor(
+  donor: { profile?: { district?: string; state?: string; locality?: string } },
+  request: BloodRequestRecord,
+) {
   const profile = donor.profile ?? {};
   let score = 100;
   if (profile.state?.trim().toLowerCase() === request.state.trim().toLowerCase()) score += 100;
@@ -37,32 +38,31 @@ export async function findAndCreateMatches(request: BloodRequestRecord) {
     profileCompleted: true,
     "profile.availableToDonate": true,
     "profile.bloodGroup": { $in: compatible },
-  }).select("name profile").lean().exec();
-
-  if (!donors.length) return [];
+  }).select("name profile profileImage").lean().exec();
 
   const matches = donors
     .map((donor) => ({ donor, score: scoreDonor(donor, request) }))
     .sort((a, b) => b.score - a.score)
     .slice(0, 50);
 
-  const operations = matches.map(({ donor, score }) => ({
-    updateOne: {
-      filter: { requestId: request._id, donorId: donor._id },
-      update: {
-        $setOnInsert: {
-          requestId: request._id,
-          donorId: donor._id,
-          status: "pending" as MatchStatus,
-          compatibility: "exact" as const,
-          score,
+  if (matches.length) {
+    await DonorMatchModel.bulkWrite(matches.map(({ donor, score }) => ({
+      updateOne: {
+        filter: { requestId: request._id, donorId: donor._id },
+        update: {
+          $setOnInsert: {
+            requestId: request._id,
+            donorId: donor._id,
+            status: "pending" as MatchStatus,
+            compatibility: "exact" as const,
+            score,
+          },
         },
+        upsert: true,
       },
-      upsert: true,
-    },
-  }));
+    })));
+  }
 
-  if (operations.length) await DonorMatchModel.bulkWrite(operations);
   return matches;
 }
 
@@ -83,6 +83,39 @@ export async function listMatchesForRequest(requesterId: string, requestId: stri
     .exec();
 
   return matches;
+}
+
+export async function listMatchesForDonor(donorId: string) {
+  await connectToDatabase();
+
+  const matches = await DonorMatchModel.find({
+    donorId,
+    status: "pending",
+  })
+    .sort({ createdAt: -1 })
+    .limit(50)
+    .populate({
+      path: "requestId",
+      select: "bloodGroup units urgency neededBy hospitalName state district locality patientRelation note status",
+    })
+    .lean()
+    .exec();
+
+  return matches.filter((match) => match.requestId && (match.requestId as BloodRequestRecord).status === "open");
+}
+
+export async function respondToDonorMatch(
+  donorId: string,
+  matchId: string,
+  status: Extract<MatchStatus, "accepted" | "declined">,
+) {
+  await connectToDatabase();
+
+  return DonorMatchModel.findOneAndUpdate(
+    { _id: matchId, donorId, status: "pending" },
+    { $set: { status } },
+    { new: true },
+  ).lean().exec();
 }
 
 export { COMPATIBLE_DONORS };
