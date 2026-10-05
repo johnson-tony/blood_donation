@@ -5,8 +5,10 @@ import Link from "next/link";
 import { IconClock, IconBuilding } from "@/components/layout/icons";
 import { buttonClasses } from "@/components/ui/button";
 import { getCurrentUserRecord } from "@/lib/auth/guards";
-import { cancelBloodRequestAction } from "@/app/actions/blood-request";
 import { getBloodRequestForOwner } from "@/lib/services/blood-request.service";
+import { listMatchesForRequest } from "@/lib/services/donor-matching.service";
+import { refreshDonorMatchesAction } from "@/app/actions/donor-matching";
+import { cancelBloodRequestAction } from "@/app/actions/blood-request";
 
 export const metadata: Metadata = { title: "Blood request" };
 
@@ -17,6 +19,7 @@ export default async function BloodRequestDetailPage({ params }: { params: Promi
 
   if (!request) notFound();
 
+  const matches = await listMatchesForRequest(String(user._id), id);
   const urgencyLabel = request.urgency === "critical" ? "Critical" : request.urgency === "urgent" ? "Urgent" : "Planned";
 
   return (
@@ -33,6 +36,34 @@ export default async function BloodRequestDetailPage({ params }: { params: Promi
           <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold">{request.status}</span>
         </div>
         <div className="mt-7 border-t border-white/15 pt-4 text-sm text-white/75">{urgencyLabel} · needed by {new Date(request.neededBy).toLocaleString()}</div>
+      </section>
+
+      <section className="rounded-[24px] border border-line bg-surface p-5 shadow-card sm:p-6">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-mahogany-600">Matching</p>
+            <h2 className="mt-1 text-lg font-bold text-ink">Compatible donors</h2>
+            <p className="mt-1 text-sm text-ink-muted">Matches are ranked by blood compatibility and area relevance.</p>
+          </div>
+          <form action={refreshDonorMatchesAction}>
+            <input type="hidden" name="requestId" value={request.id} />
+            <button type="submit" className="min-h-11 rounded-xl bg-mahogany-600 px-4 text-sm font-semibold text-white hover:bg-mahogany-700">Find donors</button>
+          </form>
+        </div>
+
+        <div className="mt-5 space-y-3">
+          {matches?.length ? matches.map((match: any) => (
+            <div key={String(match._id)} className="flex items-center justify-between gap-4 rounded-2xl border border-line bg-canvas p-4">
+              <div className="min-w-0">
+                <p className="font-semibold text-ink">{match.donorId?.name ?? "Compatible donor"}</p>
+                <p className="mt-1 text-sm text-ink-muted">{match.donorId?.profile?.bloodGroup} · {match.donorId?.profile?.locality ?? match.donorId?.profile?.district ?? "Area not shared"}</p>
+              </div>
+              <span className="shrink-0 rounded-full bg-success-surface px-2.5 py-1 text-xs font-semibold text-success">Compatible</span>
+            </div>
+          )) : (
+            <div className="rounded-2xl bg-canvas p-5 text-sm leading-6 text-ink-muted">No compatible available donors have been found yet. You can refresh the match search as more donors become available.</div>
+          )}
+        </div>
       </section>
 
       <section className="grid gap-3 sm:grid-cols-2">
