@@ -64,8 +64,8 @@ export function AppShell({
         </main>
 
         <nav aria-label="Primary mobile navigation" className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-xl lg:hidden">
-          <div className="mx-auto grid max-w-xl grid-cols-2 gap-1">
-            {items.filter((item) => item.ready && item.href).slice(0, 2).map((item) => {
+          <div className="mx-auto grid max-w-xl grid-cols-3 gap-1">
+            {items.filter((item) => item.ready && item.href).slice(0, 3).map((item) => {
               const Icon = item.icon;
               return <a key={item.href} href={item.href} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-2xl text-[0.68rem] font-semibold text-ink-secondary active:bg-mahogany-50"><Icon className="size-5" /><span>{item.label === "Dashboard" ? "Home" : item.label}</span></a>;
             })}
