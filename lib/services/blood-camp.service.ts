@@ -20,9 +20,6 @@ function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&");
 }
 
-function textFilter");
-}
-
 function textFilter(value?: string) {
   const trimmed = value?.trim();
   return trimmed ? { $regex: escapeRegex(trimmed), $options: "i" } : undefined;
