@@ -27,9 +27,13 @@ function toDTO(hospital: HospitalRecord): HospitalDTO {
 }
 
 function escapeRegex(value: string) {
+  return value.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&");
 }");
+}
+
+function textFilter");
 }
 
 function textFilter(value?: string) {
