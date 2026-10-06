@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { PageHeader } from "@/components/layout/page-header";
 import { IconHeart } from "@/components/layout/icons";
-import { Badge } from "@/components/ui/badge";
+import { Badge, type BadgeTone } from "@/components/ui/badge";
 import { Card, CardBody } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
@@ -12,7 +12,7 @@ import { formatDate } from "@/lib/utils/format";
 
 export const metadata: Metadata = { title: "Blood Requests" };
 
-const urgencyTone = { urgent: "danger", today: "brand", scheduled: "neutral" } as const;
+const urgencyTone: Record<"urgent" | "today" | "scheduled", BadgeTone> = { urgent: "brand", today: "brand", scheduled: "neutral" };
 
 export default async function AdminBloodRequestsPage() {
   await requireAdminUser();
