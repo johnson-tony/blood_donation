@@ -1,8 +1,13 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 
 import { verifyPassword } from "@/lib/auth/password";
-import { findUserForSignIn } from "@/lib/services/user.service";
+import {
+  findOrCreateGoogleUser,
+  findUserForSignIn,
+  getUserByEmail,
+} from "@/lib/services/user.service";
 import { signInSchema } from "@/lib/validations/user";
 
 /** One week. */
@@ -30,6 +35,10 @@ export const authConfig = {
   trustHost: true,
 
   providers: [
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
     Credentials({
       id: "credentials",
       name: "Email and password",
@@ -79,12 +88,40 @@ export const authConfig = {
   ],
 
   callbacks: {
-    jwt({ token, user }) {
+    async signIn({ account, profile, user }) {
+      if (account?.provider !== "google") return true;
+
+      const googleProfile = profile as
+        | { email?: unknown; email_verified?: unknown; name?: unknown }
+        | undefined;
+      const email = typeof googleProfile?.email === "string"
+        ? googleProfile.email
+        : user.email;
+      const name = typeof googleProfile?.name === "string"
+        ? googleProfile.name
+        : user.name;
+
+      if (googleProfile?.email_verified !== true || !email) return false;
+
+      await findOrCreateGoogleUser({ email, name: name ?? email });
+      return true;
+    },
+
+    async jwt({ token, user, account }) {
       if (user) {
-        token.id = user.id as string;
-        token.role = user.role;
-        token.profileImage = user.profileImage ?? null;
-        token.profileCompleted = user.profileCompleted;
+        if (account?.provider === "google" && user.email) {
+          const dbUser = await getUserByEmail(user.email);
+          if (!dbUser) throw new Error("Google account could not be loaded.");
+          token.id = String(dbUser._id);
+          token.role = dbUser.role;
+          token.profileImage = dbUser.profileImage ?? null;
+          token.profileCompleted = dbUser.profileCompleted;
+        } else {
+          token.id = user.id as string;
+          token.role = user.role;
+          token.profileImage = user.profileImage ?? null;
+          token.profileCompleted = user.profileCompleted;
+        }
       }
 
       return token;

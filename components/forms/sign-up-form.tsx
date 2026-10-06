@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 
-import { signUpAction } from "@/app/actions/auth";
+import { googleSignInAction, signUpAction } from "@/app/actions/auth";
 import { Alert } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
@@ -31,6 +31,15 @@ export function SignUpForm() {
         <Input id="confirmPassword" name="confirmPassword" type="password" label="Confirm password" autoComplete="new-password" required error={state.fieldErrors?.confirmPassword?.[0]} />
         <SubmitButton pendingLabel="Creating account…" size="lg" className="mt-3 h-12 rounded-xl">Create account</SubmitButton>
       </form>
+      <div className="mt-4">
+        <form action={googleSignInAction}>
+          <input type="hidden" name="callbackUrl" value="/onboarding" />
+          <button type="submit" className="flex h-11 w-full items-center justify-center gap-3 rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-sm transition hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mahogany-600">
+            <span aria-hidden="true" className="text-base font-bold text-[#4285F4]">G</span>
+            Sign up with Google
+          </button>
+        </form>
+      </div>
       <p className="mt-7 text-center text-sm text-ink-muted">Already registered?{" "}<Link href="/sign-in" className="font-semibold text-mahogany-700 underline-offset-4 hover:underline">Sign in</Link></p>
       <p className="mt-8 text-center text-xs leading-5 text-ink-subtle">Your account is created first. Your donor profile is completed in the next step.</p>
     </div>

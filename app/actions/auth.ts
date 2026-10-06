@@ -91,6 +91,14 @@ export async function signInAction(
   redirect(requested);
 }
 
+export async function googleSignInAction(formData: FormData): Promise<void> {
+  const callbackUrl = safeCallbackUrl(
+    formData.get("callbackUrl"),
+    "/dashboard",
+  );
+  await signIn("google", { redirectTo: callbackUrl });
+}
+
 export async function signUpAction(
   _previousState: FormActionState,
   formData: FormData,

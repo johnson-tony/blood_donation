@@ -1,5 +1,7 @@
 import "server-only";
 
+import { randomBytes } from "node:crypto";
+
 import { connectToDatabase } from "@/lib/db/connect";
 import { hashPassword } from "@/lib/auth/password";
 import UserModel, {
@@ -117,6 +119,34 @@ export async function createUser(input: {
   } catch (error) {
     if (isDuplicateKeyError(error)) {
       throw new DuplicateEmailError();
+    }
+    throw error;
+  }
+}
+
+/** Finds an existing account or creates a standard member for verified OAuth. */
+export async function findOrCreateGoogleUser(input: {
+  name: string;
+  email: string;
+}): Promise<UserRecord> {
+  const email = input.email.trim().toLowerCase();
+  const existing = await getUserByEmail(email);
+  if (existing) return existing;
+
+  try {
+    return await createUser({
+      name: input.name.trim() || email,
+      email,
+      // OAuth accounts do not use this value for authentication. A random
+      // secret prevents an OAuth-only account from having a usable password.
+      password: randomBytes(32).toString("base64url"),
+    });
+  } catch (error) {
+    // A concurrent OAuth callback or email registration may win the unique
+    // index race. Reuse the account that was created by the other request.
+    if (error instanceof DuplicateEmailError) {
+      const user = await getUserByEmail(email);
+      if (user) return user;
     }
     throw error;
   }

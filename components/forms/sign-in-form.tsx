@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 
-import { signInAction } from "@/app/actions/auth";
+import { googleSignInAction, signInAction } from "@/app/actions/auth";
 import { Alert } from "@/components/ui/alert";
 import { Card, CardBody } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -71,6 +71,16 @@ export function SignInForm({ callbackUrl }: { callbackUrl: string }) {
           </form>
         </CardBody>
       </Card>
+
+      <form action={googleSignInAction}>
+        {callbackUrl !== "/dashboard" ? (
+          <input type="hidden" name="callbackUrl" value={callbackUrl} />
+        ) : null}
+        <button type="submit" className="flex h-11 w-full items-center justify-center gap-3 rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-sm transition hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mahogany-600">
+          <span aria-hidden="true" className="text-base font-bold text-[#4285F4]">G</span>
+          Continue with Google
+        </button>
+      </form>
 
       <p className="text-center text-sm text-ink-muted">
         New here?{" "}
