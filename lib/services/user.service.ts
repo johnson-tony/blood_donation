@@ -291,7 +291,7 @@ export async function listDonors(options?: {
     role: "USER",
     profileCompleted: true,
     "profile.availableToDonate": true,
-  };
+  } as const;
 
   const [users, total] = await Promise.all([
     UserModel.find(filter)
