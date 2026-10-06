@@ -101,7 +101,22 @@ export default async function AdminPage() {
   );
 }
 
-function AdminLink({ href, label }: { href: string; label: string }) {\n  return (\n    <Link\n      href={href}\n      className={buttonClasses({ variant: "secondary", size: "md", className: "justify-start" })}\n    >\n      {label}\n    </Link>\n  );\n}\n\nfunction StatValue({ metric }: { metric: Metric }) {
+function AdminLink({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      className={buttonClasses({
+        variant: "secondary",
+        size: "md",
+        className: "justify-start",
+      })}
+    >
+      {label}
+    </Link>
+  );
+}
+
+function StatValue({ metric }: { metric: Metric }) {
   return (
     <p className="text-3xl font-semibold tracking-tight text-ink">
       {formatNumber(metric.value)}
