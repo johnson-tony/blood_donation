@@ -6,6 +6,7 @@ import { signOutAction } from "@/app/actions/auth";
 import { updateProfileAction } from "@/app/actions/profile";
 import { Alert } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
+import { StateDistrictSelect } from "@/components/ui/state-district-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { IDLE_FORM_STATE } from "@/lib/utils/form-action-state";
 import { BLOOD_GROUPS } from "@/types/user";
@@ -110,42 +111,28 @@ export function DonorOnboarding({ profile }: { profile: ProfileDTO }) {
               3. Where are you located?
             </h2>
             <p className="mt-1 text-xs text-ink-muted">
-              Used to match you with nearby patients and blood requests.
+              Select your state and district from the dropdowns to help match nearby blood requests.
             </p>
 
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <Input
-                id="state"
-                name="state"
-                label="State"
-                autoComplete="address-level1"
-                placeholder="e.g. Tamil Nadu"
-                defaultValue={profile.state ?? ""}
+            <div className="mt-4 space-y-4">
+              <StateDistrictSelect
+                defaultState={profile.state ?? ""}
+                defaultDistrict={profile.district ?? ""}
+                stateError={state.fieldErrors?.state?.[0]}
+                districtError={state.fieldErrors?.district?.[0]}
                 required
-                error={state.fieldErrors?.state?.[0]}
               />
+
               <Input
-                id="district"
-                name="district"
-                label="District"
-                autoComplete="address-level2"
-                placeholder="e.g. Tiruchirappalli"
-                defaultValue={profile.district ?? ""}
+                id="locality"
+                name="locality"
+                label="Area / Village / Locality"
+                autoComplete="address-level3"
+                placeholder="e.g. Lalgudi, Cantonment, Anna Nagar"
+                defaultValue={profile.locality ?? ""}
                 required
-                error={state.fieldErrors?.district?.[0]}
+                error={state.fieldErrors?.locality?.[0]}
               />
-              <div className="sm:col-span-2">
-                <Input
-                  id="locality"
-                  name="locality"
-                  label="Area / Village / Locality"
-                  autoComplete="address-level3"
-                  placeholder="e.g. Lalgudi, Cantonment"
-                  defaultValue={profile.locality ?? ""}
-                  required
-                  error={state.fieldErrors?.locality?.[0]}
-                />
-              </div>
             </div>
           </section>
 

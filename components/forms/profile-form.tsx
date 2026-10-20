@@ -6,6 +6,7 @@ import { updateProfileAction } from "@/app/actions/profile";
 import { Alert } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { ProfileImageField } from "@/components/forms/profile-image-field";
+import { StateDistrictSelect } from "@/components/ui/state-district-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { IDLE_FORM_STATE } from "@/lib/utils/form-action-state";
 import { BLOOD_GROUPS } from "@/lib/constants";
@@ -24,30 +25,19 @@ export function ProfileForm({ profile }: { profile: ProfileDTO }) {
   );
 
   return (
-    <form action={formAction} className="space-y-6">
-      {state.status === "error" ? <Alert tone="error" title="Profile not saved">{state.message}</Alert> : null}
-      {state.status === "success" ? <Alert tone="success" title="Profile updated">{state.message}</Alert> : null}
-
-      <section className="overflow-hidden rounded-[28px] bg-mahogany-700 p-6 text-white shadow-overlay sm:p-8">
-        <div className="flex items-center gap-4">
-          <ProfileImageField name={profile.name} initialImage={profile.profileImage} />
-          <div className="min-w-0">
-            <p className="text-xs font-bold uppercase tracking-[0.15em] text-mahogany-100">Donor profile</p>
-            <h1 className="mt-1 truncate text-2xl font-bold tracking-tight">{profile.name}</h1>
-            <p className="mt-1 text-sm text-white/65">{profile.email}</p>
-          </div>
-        </div>
-        <div className="mt-7 grid grid-cols-2 gap-3">
-          <div className="rounded-2xl bg-white/10 p-4"><p className="text-xs text-white/60">Blood group</p><p className="mt-1 text-2xl font-bold">{bloodGroup || "—"}</p></div>
-          <div className="rounded-2xl bg-white/10 p-4"><p className="text-xs text-white/60">Status</p><p className="mt-1 text-sm font-semibold">{availability === "available" ? "Available" : availability === "unavailable" ? "Not available" : "Not set"}</p></div>
-        </div>
-      </section>
+    <form action={formAction} className="space-y-6 pb-28 sm:pb-0">
+      {state.status === "error" ? <Alert tone="error" title="Profile could not be saved">{state.message}</Alert> : null}
+      {state.status === "success" ? <Alert tone="success" title="Saved">{state.message}</Alert> : null}
 
       <section className="rounded-[24px] border border-line bg-surface p-5 shadow-card sm:p-6">
-        <div className="mb-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-mahogany-600">Identity</p><h2 className="mt-1 text-lg font-bold text-ink">Personal details</h2></div>
-        <div className="space-y-5">
-          <Input id="name" name="name" type="text" label="Full name" autoComplete="name" defaultValue={profile.name} required error={state.fieldErrors?.name?.[0]} />
-          <Input id="phone" name="phone" type="tel" label="Mobile number" autoComplete="tel" inputMode="tel" placeholder="+91 98765 43210" defaultValue={profile.phone ?? ""} required hint="Used only when a donor connection needs to reach you." error={state.fieldErrors?.phone?.[0]} />
+        <div className="mb-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-mahogany-600">Account</p><h2 className="mt-1 text-lg font-bold text-ink">Personal details</h2></div>
+        <div className="space-y-6">
+          <ProfileImageField name={profile.name} initialImage={profile.profileImage} />
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Input id="name" name="name" label="Full name" autoComplete="name" defaultValue={profile.name} required error={state.fieldErrors?.name?.[0]} />
+            <Input id="email" name="email" label="Email address" type="email" value={profile.email} disabled hint="Email is fixed to your account." />
+            <Input id="phone" name="phone" label="Mobile number" type="tel" autoComplete="tel" inputMode="tel" defaultValue={profile.phone ?? ""} required containerClassName="sm:col-span-2" error={state.fieldErrors?.phone?.[0]} />
+          </div>
         </div>
       </section>
 
@@ -74,6 +64,7 @@ export function ProfileForm({ profile }: { profile: ProfileDTO }) {
           })}
         </div>
         <input type="hidden" name="bloodGroup" value={bloodGroup} />
+        {state.fieldErrors?.bloodGroup?.[0] ? <p className="mt-2 text-sm text-mahogany-700">{state.fieldErrors.bloodGroup[0]}</p> : null}
       </section>
 
       <section className="rounded-[24px] border border-line bg-surface p-5 shadow-card sm:p-6">
@@ -90,10 +81,15 @@ export function ProfileForm({ profile }: { profile: ProfileDTO }) {
 
       <section className="rounded-[24px] border border-line bg-surface p-5 shadow-card sm:p-6">
         <div className="mb-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-mahogany-600">Area</p><h2 className="mt-1 text-lg font-bold text-ink">Where can you help?</h2></div>
-        <div className="grid gap-5 sm:grid-cols-2">
-          <Input id="state" name="state" type="text" label="State" autoComplete="address-level1" defaultValue={profile.state ?? ""} required error={state.fieldErrors?.state?.[0]} />
-          <Input id="district" name="district" type="text" label="District" autoComplete="address-level2" defaultValue={profile.district ?? ""} required error={state.fieldErrors?.district?.[0]} />
-          <Input id="locality" name="locality" type="text" label="Area / locality" autoComplete="address-level3" containerClassName="sm:col-span-2" defaultValue={profile.locality ?? ""} required hint="A neighbourhood, town or village is enough." error={state.fieldErrors?.locality?.[0]} />
+        <div className="space-y-5">
+          <StateDistrictSelect
+            defaultState={profile.state ?? ""}
+            defaultDistrict={profile.district ?? ""}
+            stateError={state.fieldErrors?.state?.[0]}
+            districtError={state.fieldErrors?.district?.[0]}
+            required
+          />
+          <Input id="locality" name="locality" type="text" label="Area / locality" autoComplete="address-level3" defaultValue={profile.locality ?? ""} required hint="A neighbourhood, town or village is enough." error={state.fieldErrors?.locality?.[0]} />
         </div>
       </section>
 

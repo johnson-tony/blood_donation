@@ -6,6 +6,7 @@ import Link from "next/link";
 import { createBloodRequestAction } from "@/app/actions/blood-request";
 import { Alert } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
+import { StateDistrictSelect } from "@/components/ui/state-district-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { BLOOD_GROUPS } from "@/lib/constants";
 import { IDLE_FORM_STATE } from "@/lib/utils/form-action-state";
@@ -89,12 +90,19 @@ export function BloodRequestForm({ defaults }: { defaults: { phone: string; stat
 
       <section className="rounded-[24px] border border-line bg-surface p-5 shadow-card sm:p-6">
         <div className="mb-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-mahogany-600">When & where</p><h2 className="mt-1 text-lg font-bold text-ink">Where should help arrive?</h2></div>
-        <div className="grid gap-5 sm:grid-cols-2">
-          <Input id="neededBy" name="neededBy" type="datetime-local" label="Blood needed by" required error={state.fieldErrors?.neededBy?.[0]} />
-          <Input id="hospitalName" name="hospitalName" type="text" label="Hospital / medical centre" placeholder="e.g. St. John's Hospital" required error={state.fieldErrors?.hospitalName?.[0]} />
-          <Input id="state" name="state" type="text" label="State" defaultValue={defaults.state} required error={state.fieldErrors?.state?.[0]} />
-          <Input id="district" name="district" type="text" label="District" defaultValue={defaults.district} required error={state.fieldErrors?.district?.[0]} />
-          <Input id="locality" name="locality" type="text" label="Area / locality" defaultValue={defaults.locality} required containerClassName="sm:col-span-2" error={state.fieldErrors?.locality?.[0]} />
+        <div className="space-y-5">
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Input id="neededBy" name="neededBy" type="datetime-local" label="Blood needed by" required error={state.fieldErrors?.neededBy?.[0]} />
+            <Input id="hospitalName" name="hospitalName" type="text" label="Hospital / medical centre" placeholder="e.g. St. John's Hospital" required error={state.fieldErrors?.hospitalName?.[0]} />
+          </div>
+          <StateDistrictSelect
+            defaultState={defaults.state}
+            defaultDistrict={defaults.district}
+            stateError={state.fieldErrors?.state?.[0]}
+            districtError={state.fieldErrors?.district?.[0]}
+            required
+          />
+          <Input id="locality" name="locality" type="text" label="Area / locality" defaultValue={defaults.locality} required error={state.fieldErrors?.locality?.[0]} />
         </div>
       </section>
 

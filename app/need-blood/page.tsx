@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { BrandLogo } from "@/components/layout/brand";
 import { buttonClasses } from "@/components/ui/button";
+import { StateDistrictSelect } from "@/components/ui/state-district-select";
 import { BLOOD_GROUPS } from "@/lib/constants";
 
 export default function NeedBloodPage() {
@@ -45,15 +46,10 @@ export default function NeedBloodPage() {
                 <input name="hospital" placeholder="Hospital or treatment centre" className="h-12 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-medium outline-none placeholder:text-ink-subtle focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10" />
               </label>
 
-              <label className="block">
-                <span className="mb-2 block text-xs font-semibold text-ink-secondary">State</span>
-                <input name="state" placeholder="e.g. Tamil Nadu" className="h-12 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-medium outline-none placeholder:text-ink-subtle focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10" />
-              </label>
-
-              <label className="block">
-                <span className="mb-2 block text-xs font-semibold text-ink-secondary">District</span>
-                <input name="district" placeholder="e.g. Tiruchirappalli" className="h-12 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-medium outline-none placeholder:text-ink-subtle focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10" />
-              </label>
+              <StateDistrictSelect
+                required={false}
+                className="contents sm:contents"
+              />
 
               <label className="block sm:col-span-2">
                 <span className="mb-2 block text-xs font-semibold text-ink-secondary">Village / locality</span>

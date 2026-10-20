@@ -9,6 +9,7 @@ import {
   IconShield,
 } from "@/components/layout/icons";
 import { buttonClasses } from "@/components/ui/button";
+import { StateDistrictSelect } from "@/components/ui/state-district-select";
 import { BLOOD_GROUPS } from "@/lib/constants";
 import { findAvailableDonors } from "@/lib/services/donor-search.service";
 import type { BloodGroup } from "@/types/user";
@@ -98,21 +99,22 @@ export default async function FindBloodPage({ searchParams }: { searchParams: Se
               </select>
             </label>
 
-            {[
-              ["state", "State", state, "e.g. Tamil Nadu"],
-              ["district", "District", district, "e.g. Tiruchirappalli"],
-              ["locality", "Village / Locality", locality, "e.g. Lalgudi"],
-            ].map(([name, label, value, placeholder]) => (
-              <label key={name} className="block">
-                <span className="mb-1.5 block text-xs font-bold text-ink-secondary">{label}</span>
-                <input
-                  name={name}
-                  defaultValue={value}
-                  placeholder={placeholder}
-                  className="h-10.5 w-full rounded-xl border border-line-strong/80 bg-surface px-3.5 text-sm font-medium outline-none placeholder:text-ink-subtle transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10 shadow-xs"
-                />
-              </label>
-            ))}
+            <StateDistrictSelect
+              defaultState={state}
+              defaultDistrict={district}
+              required={false}
+              className="contents"
+            />
+
+            <label className="block">
+              <span className="mb-1.5 block text-xs font-bold text-ink-secondary">Village / Locality</span>
+              <input
+                name="locality"
+                defaultValue={locality}
+                placeholder="e.g. Lalgudi"
+                className="h-10.5 w-full rounded-xl border border-line-strong/80 bg-surface px-3.5 text-sm font-medium outline-none placeholder:text-ink-subtle transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10 shadow-xs"
+              />
+            </label>
           </div>
 
           <div className="mt-5 flex flex-col gap-3.5 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between">
