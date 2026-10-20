@@ -10,8 +10,30 @@ import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { IDLE_FORM_STATE } from "@/lib/utils/form-action-state";
 
-export function SignInForm({ callbackUrl }: { callbackUrl: string }) {
+export function SignInForm({
+  callbackUrl,
+  urlError,
+}: {
+  callbackUrl: string;
+  urlError?: string;
+}) {
   const [state, formAction] = useActionState(signInAction, IDLE_FORM_STATE);
+
+  const getUrlErrorMessage = (err?: string) => {
+    if (!err) return null;
+    if (err === "AccessDenied") {
+      return "Google Sign-In access was denied. Please ensure your MongoDB Atlas network access allows connections from anywhere (0.0.0.0/0) and environment variables are configured in Vercel.";
+    }
+    if (err === "OAuthCallbackError") {
+      return "Could not authenticate with Google. Please verify your Google OAuth credentials.";
+    }
+    if (err === "Configuration") {
+      return "Server configuration issue. Please check your AUTH_SECRET and Google credentials in Vercel.";
+    }
+    return `Authentication error: ${err}`;
+  };
+
+  const urlErrorMessage = getUrlErrorMessage(urlError);
 
   return (
     <div className="space-y-3">
@@ -20,6 +42,10 @@ export function SignInForm({ callbackUrl }: { callbackUrl: string }) {
           Sign in
         </h1>
       </div>
+
+      {urlErrorMessage ? (
+        <Alert tone="error">{urlErrorMessage}</Alert>
+      ) : null}
 
       {state.status === "error" ? (
         <Alert tone="error">{state.message}</Alert>

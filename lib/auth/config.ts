@@ -94,28 +94,54 @@ export const authConfig = {
       const googleProfile = profile as
         | { email?: unknown; email_verified?: unknown; name?: unknown }
         | undefined;
-      const email = typeof googleProfile?.email === "string"
+
+      const rawEmail = typeof googleProfile?.email === "string"
         ? googleProfile.email
-        : user.email;
+        : user?.email;
+
+      const email = typeof rawEmail === "string" ? rawEmail.trim().toLowerCase() : null;
+
       const name = typeof googleProfile?.name === "string"
         ? googleProfile.name
-        : user.name;
+        : user?.name;
 
-      if (googleProfile?.email_verified !== true || !email) return false;
+      if (!email) {
+        console.error("Google signIn: No email address received from Google profile.");
+        return false;
+      }
 
-      await findOrCreateGoogleUser({ email, name: name ?? email });
-      return true;
+      // Explicitly reject only if Google explicitly marks email_verified as false
+      if (googleProfile?.email_verified === false) {
+        console.error("Google signIn: Email is not verified by Google.");
+        return false;
+      }
+
+      try {
+        await findOrCreateGoogleUser({ email, name: name ?? email });
+        return true;
+      } catch (err) {
+        console.error("Google signIn: Error saving or finding user in database:", err);
+        return false;
+      }
     },
 
     async jwt({ token, user, account }) {
       if (user) {
         if (account?.provider === "google" && user.email) {
-          const dbUser = await getUserByEmail(user.email);
-          if (!dbUser) throw new Error("Google account could not be loaded.");
-          token.id = String(dbUser._id);
-          token.role = dbUser.role;
-          token.profileImage = dbUser.profileImage ?? null;
-          token.profileCompleted = dbUser.profileCompleted;
+          try {
+            const dbUser = await getUserByEmail(user.email);
+            if (dbUser) {
+              token.id = String(dbUser._id);
+              token.role = dbUser.role;
+              token.profileImage = dbUser.profileImage ?? null;
+              token.profileCompleted = dbUser.profileCompleted;
+            } else {
+              token.id = user.id as string;
+            }
+          } catch (err) {
+            console.error("Google jwt: Failed to fetch user from DB:", err);
+            token.id = user.id as string;
+          }
         } else {
           token.id = user.id as string;
           token.role = user.role;

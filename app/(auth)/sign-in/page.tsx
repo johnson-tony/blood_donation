@@ -10,9 +10,11 @@ export const metadata: Metadata = {
 
 export default async function SignInPage({
   searchParams,
-}: PageProps<"/sign-in">) {
+}: {
+  searchParams: Promise<{ callbackUrl?: string; error?: string }>;
+}) {
   const params = await searchParams;
   const callbackUrl = safeCallbackUrl(params.callbackUrl, "/dashboard");
 
-  return <SignInForm callbackUrl={callbackUrl} />;
+  return <SignInForm callbackUrl={callbackUrl} urlError={params.error} />;
 }

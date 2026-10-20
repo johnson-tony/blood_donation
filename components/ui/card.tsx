@@ -8,7 +8,7 @@ export function Card({
   ...props
 }: React.ComponentProps<"div"> & { variant?: CardVariant }) {
   const variantStyles: Record<CardVariant, string> = {
-    default: "border border-line/90 bg-surface shadow-card text-ink",
+    default: "text-ink",
     crimson: "bg-gradient-to-br from-mahogany-600 via-mahogany-700 to-mahogany-800 text-white shadow-glow border-0",
     subtle: "border border-mahogany-100 bg-mahogany-50/50 shadow-card text-ink",
     flat: "border border-line bg-surface-muted/60 text-ink",
