@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { NavIcon } from "@/components/layout/nav-icon";
 import type { NavItem } from "@/components/layout/navigation";
 import { cn } from "@/lib/utils/cn";
 
@@ -24,7 +25,6 @@ export function NavLinks({
   return (
     <ul className={cn("space-y-0.5", className)}>
       {items.map((item) => {
-        const Icon = item.icon;
         const labelId = item.ready ? undefined : `${item.label.replace(/\s+/g, "-").toLowerCase()}-pending`;
 
         if (!item.href) {
@@ -34,7 +34,7 @@ export function NavLinks({
                 aria-disabled="true"
                 className="flex cursor-not-allowed items-center gap-3 rounded-lg px-3 py-2 text-sm text-ink-subtle"
               >
-                <Icon className="size-[1.125rem] opacity-60" />
+                <NavIcon name={item.icon} className="size-[1.125rem] opacity-60" />
                 <span className="flex-1 truncate">{item.label}</span>
                 <span
                   id={labelId}
@@ -62,7 +62,8 @@ export function NavLinks({
                   : "text-ink-secondary hover:bg-surface-muted hover:text-ink",
               )}
             >
-              <Icon
+              <NavIcon
+                name={item.icon}
                 className={cn(
                   "size-[1.125rem]",
                   active ? "text-mahogany-600" : "text-ink-subtle group-hover:text-ink-muted",

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { NavIcon } from "@/components/layout/nav-icon";
 import type { NavItem } from "@/components/layout/navigation";
 import { cn } from "@/lib/utils/cn";
 
@@ -17,7 +18,6 @@ export function MobileBottomNav({ items }: { items: NavItem[] }) {
     >
       <div className="mx-auto grid max-w-md grid-cols-4 gap-1">
         {validItems.map((item) => {
-          const Icon = item.icon;
           const href = item.href ?? "/";
           const active =
             href === "/dashboard"
@@ -44,7 +44,7 @@ export function MobileBottomNav({ items }: { items: NavItem[] }) {
                     : "bg-transparent text-current",
                 )}
               >
-                <Icon className="size-4.5" />
+                <NavIcon name={item.icon} className="size-4.5" />
               </div>
               <span className="text-[0.68rem] tracking-tight">{label}</span>
             </Link>

@@ -1,50 +1,44 @@
-import type { ComponentType } from "react";
-
-import {
-  IconBell,
-  IconBuilding,
-  IconCalendar,
-  IconClipboard,
-  IconDashboard,
-  IconDroplet,
-  IconHeart,
-  IconSearch,
-  IconSettings,
-  IconUser,
-  IconUsers,
-} from "@/components/layout/icons";
-
-export type NavIcon = ComponentType<{ className?: string }>;
+export type NavIconName =
+  | "dashboard"
+  | "find-blood"
+  | "need-blood"
+  | "donate-blood"
+  | "hospitals"
+  | "blood-camps"
+  | "my-requests"
+  | "notifications"
+  | "profile"
+  | "users"
+  | "donors"
+  | "blood-requests"
+  | "settings";
 
 export type NavItem = {
   label: string;
-  /** Absent while the route has not been built yet. */
-  href?: string;
-  icon: NavIcon;
-  /**
-   * `false` renders a clearly labelled, non-interactive placeholder so the
-   * shell shows its intended shape without linking to pages that do not exist.
-   */
+  href?: string | null;
+  icon: NavIconName;
   ready: boolean;
 };
 
 export const userNavigation: NavItem[] = [
-  { label: "Dashboard", href: "/dashboard", icon: IconDashboard, ready: true },
-  { label: "Profile", href: "/profile", icon: IconUser, ready: true },
-  { label: "Find Blood", icon: IconSearch, ready: false },
-  { label: "Request blood", href: "/requests/new", icon: IconHeart, ready: true },
-  { label: "Donate Blood", href: "/donor-opportunities", icon: IconDroplet, ready: true },
-  { label: "My requests", href: "/requests", icon: IconClipboard, ready: true },
-  { label: "Notifications", icon: IconBell, ready: false },
+  { label: "Dashboard", href: "/dashboard", icon: "dashboard", ready: true },
+  { label: "Find Blood", href: "/find-blood", icon: "find-blood", ready: true },
+  { label: "Need Blood", href: "/requests/new", icon: "need-blood", ready: true },
+  { label: "Donate Blood", href: "/donate-blood", icon: "donate-blood", ready: true },
+  { label: "Hospitals", href: "/hospitals", icon: "hospitals", ready: true },
+  { label: "Blood Camps", href: "/blood-camps", icon: "blood-camps", ready: true },
+  { label: "My Requests", href: "/requests", icon: "my-requests", ready: true },
+  { label: "Notifications", href: "/notifications", icon: "notifications", ready: true },
+  { label: "Profile", href: "/profile", icon: "profile", ready: true },
 ];
 
 export const adminNavigation: NavItem[] = [
-  { label: "Dashboard", href: "/admin", icon: IconDashboard, ready: true },
-  { label: "Users", href: "/admin/users", icon: IconUsers, ready: true },
-  { label: "Donors", icon: IconDroplet, ready: false },
-  { label: "Blood Requests", icon: IconHeart, ready: false },
-  { label: "Blood Camps", icon: IconCalendar, ready: false },
-  { label: "Hospitals", icon: IconBuilding, ready: false },
-  { label: "Notifications", icon: IconBell, ready: false },
-  { label: "Settings", icon: IconSettings, ready: false },
+  { label: "Dashboard", href: "/admin", icon: "dashboard", ready: true },
+  { label: "Users", href: "/admin/users", icon: "users", ready: true },
+  { label: "Donors", href: "/admin/donors", icon: "donors", ready: true },
+  { label: "Blood Requests", href: "/admin/blood-requests", icon: "blood-requests", ready: true },
+  { label: "Blood Camps", href: "/admin/blood-camps", icon: "blood-camps", ready: true },
+  { label: "Hospitals", href: "/admin/hospitals", icon: "hospitals", ready: true },
+  { label: "Notifications", href: "/admin/notifications", icon: "notifications", ready: true },
+  { label: "Settings", icon: "settings", ready: false },
 ];
