@@ -1,13 +1,22 @@
+import { redirect } from "next/navigation";
+
 import { AppShell } from "@/components/layout/app-shell";
 import { userNavigation } from "@/components/layout/navigation";
-import { requireUser } from "@/lib/auth/guards";
+import { getCurrentUserRecord } from "@/lib/auth/guards";
+import { toSessionUserDTO } from "@/lib/services/user.service";
 
 export default async function MemberAreaLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = await requireUser();
+  const record = await getCurrentUserRecord();
+
+  if (record.role !== "ADMIN" && !record.profileCompleted) {
+    redirect("/onboarding");
+  }
+
+  const user = toSessionUserDTO(record);
 
   return (
     <AppShell

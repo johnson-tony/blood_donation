@@ -53,10 +53,24 @@ export function ProfileForm({ profile }: { profile: ProfileDTO }) {
 
       <section className="rounded-[24px] border border-line bg-surface p-5 shadow-card sm:p-6">
         <div className="mb-5"><p className="text-xs font-bold uppercase tracking-[0.14em] text-mahogany-600">Compatibility</p><h2 className="mt-1 text-lg font-bold text-ink">Blood group</h2></div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {BLOOD_GROUPS.map((group) => {
             const selected = bloodGroup === group;
-            return <button key={group} type="button" onClick={() => setBloodGroup(group)} aria-pressed={selected} className={`min-h-20 rounded-[20px] border font-bold transition-all active:scale-[0.98] ${selected ? "border-mahogany-600 bg-mahogany-600 text-white shadow-raised" : "border-line bg-canvas text-ink hover:border-mahogany-300"}`}>{group}</button>;
+            return (
+              <button
+                key={group}
+                type="button"
+                onClick={() => setBloodGroup(group)}
+                aria-pressed={selected}
+                className={`min-h-16 rounded-xl border text-sm font-bold transition-all cursor-pointer active:scale-[0.98] ${
+                  selected
+                    ? "border-mahogany-600 bg-mahogany-600 text-white shadow-glow"
+                    : "border-line bg-canvas text-ink hover:border-mahogany-300"
+                }`}
+              >
+                {group}
+              </button>
+            );
           })}
         </div>
         <input type="hidden" name="bloodGroup" value={bloodGroup} />

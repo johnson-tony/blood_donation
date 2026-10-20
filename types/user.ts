@@ -18,6 +18,16 @@ export const BLOOD_GROUPS = [
   "AB-",
   "O+",
   "O-",
+  "A1+",
+  "A1-",
+  "A2+",
+  "A2-",
+  "A1B+",
+  "A1B-",
+  "A2B+",
+  "A2B-",
+  "Bombay (hh)",
+  "INRA",
 ] as const;
 export type BloodGroup = (typeof BLOOD_GROUPS)[number];
 

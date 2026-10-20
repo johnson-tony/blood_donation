@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import Link from "next/link";
 
 import { updateProfileAction } from "@/app/actions/profile";
+import { signOutAction } from "@/app/actions/auth";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +14,7 @@ import { BLOOD_GROUPS } from "@/types/user";
 import type { ProfileDTO } from "@/types/user";
 
 const steps = [
-  { eyebrow: "01", title: "Your blood type", subtitle: "The key detail we use to match you with compatible requests." },
+  { eyebrow: "01", title: "Your blood type", subtitle: "Select your blood group to help match you with urgent requests." },
   { eyebrow: "02", title: "Your area", subtitle: "Tell us where you are so nearby matches can be prioritised." },
   { eyebrow: "03", title: "Stay reachable", subtitle: "Choose whether you're currently open to helping someone." },
 ] as const;
@@ -44,11 +45,21 @@ export function DonorOnboarding({ profile }: { profile: ProfileDTO }) {
     <div className="min-h-dvh bg-canvas">
       <div className="mx-auto flex min-h-dvh w-full max-w-xl flex-col px-5 pb-28 pt-5 sm:px-8">
         <header className="flex items-center justify-between">
-          <Link href="/dashboard" className="flex items-center gap-2.5 text-sm font-semibold text-ink" aria-label="BloodLink home">
+          <div className="flex items-center gap-2.5 text-sm font-semibold text-ink">
             <span className="flex size-9 items-center justify-center rounded-2xl bg-mahogany-600 text-lg font-bold text-white shadow-raised">+</span>
             BloodLink
-          </Link>
-          <span className="rounded-full bg-mahogany-50 px-3 py-1.5 text-xs font-bold text-mahogany-700">{step + 1} / 3</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="rounded-full bg-mahogany-50 px-3 py-1.5 text-xs font-bold text-mahogany-700">{step + 1} / 3</span>
+            <form action={signOutAction}>
+              <button
+                type="submit"
+                className="rounded-full px-2.5 py-1 text-xs font-semibold text-ink-muted hover:bg-surface-muted hover:text-mahogany-700 transition cursor-pointer"
+              >
+                Sign out
+              </button>
+            </form>
+          </div>
         </header>
 
         <div className="mt-6 h-1.5 overflow-hidden rounded-full bg-mahogany-100">
@@ -57,7 +68,7 @@ export function DonorOnboarding({ profile }: { profile: ProfileDTO }) {
 
         <form action={formAction} className="flex flex-1 flex-col">
           <main className="flex-1 pt-12 sm:pt-16">
-            <div className="mb-9">
+            <div className="mb-8">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-mahogany-600">{steps[step].eyebrow} · Donor setup</p>
               <h1 className="mt-3 text-3xl font-bold tracking-[-0.035em] text-ink sm:text-4xl">{steps[step].title}</h1>
               <p className="mt-3 max-w-md text-[15px] leading-6 text-ink-muted">{steps[step].subtitle}</p>
@@ -67,23 +78,41 @@ export function DonorOnboarding({ profile }: { profile: ProfileDTO }) {
 
             {step === 0 ? (
               <section aria-label="Choose blood group">
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-4">
                   {BLOOD_GROUPS.map((group) => {
                     const selected = bloodGroup === group;
                     return (
-                      <button key={group} type="button" onClick={() => setBloodGroup(group)} aria-pressed={selected}
-                        className={`group relative flex min-h-24 flex-col items-center justify-center rounded-[22px] border p-4 text-center transition-all active:scale-[0.98] ${selected ? "border-mahogany-600 bg-mahogany-600 text-white shadow-raised" : "border-line bg-surface text-ink shadow-card hover:border-mahogany-300"}`}>
-                        <span className={`mb-2 text-[10px] font-bold uppercase tracking-[0.18em] ${selected ? "text-mahogany-100" : "text-ink-subtle"}`}>Blood</span>
-                        <span className="text-2xl font-bold tracking-tight">{group}</span>
-                        {selected ? <span className="absolute right-3 top-3 flex size-5 items-center justify-center rounded-full bg-white/15 text-xs">✓</span> : null}
+                      <button
+                        key={group}
+                        type="button"
+                        onClick={() => setBloodGroup(group)}
+                        aria-pressed={selected}
+                        className={`group relative flex min-h-20 flex-col items-center justify-center rounded-2xl border p-3 text-center transition-all cursor-pointer active:scale-[0.98] ${
+                          selected
+                            ? "border-mahogany-600 bg-mahogany-600 text-white shadow-glow"
+                            : "border-line bg-surface text-ink shadow-xs hover:border-mahogany-300"
+                        }`}
+                      >
+                        <span
+                          className={`mb-1 text-[9px] font-bold uppercase tracking-[0.16em] ${
+                            selected ? "text-mahogany-100" : "text-ink-subtle"
+                          }`}
+                        >
+                          Blood
+                        </span>
+                        <span className="text-lg font-bold tracking-tight">{group}</span>
+                        {selected ? (
+                          <span className="absolute right-2 top-2 flex size-4.5 items-center justify-center rounded-full bg-white/20 text-[10px]">
+                            ✓
+                          </span>
+                        ) : null}
                       </button>
                     );
                   })}
                 </div>
-                <div className="mt-6 rounded-[22px] border border-mahogany-100 bg-mahogany-50 p-4">
-                  <p className="text-sm leading-5 text-ink-secondary"><span className="font-semibold text-ink">Why we ask:</span> your blood group is used only for compatible donor matching.</p>
-                </div>
-                {state.fieldErrors?.bloodGroup?.[0] ? <p className="mt-2 text-sm text-mahogany-700">{state.fieldErrors.bloodGroup[0]}</p> : null}
+                {state.fieldErrors?.bloodGroup?.[0] ? (
+                  <p className="mt-3 text-sm text-mahogany-700">{state.fieldErrors.bloodGroup[0]}</p>
+                ) : null}
               </section>
             ) : null}
 

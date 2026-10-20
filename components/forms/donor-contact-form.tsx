@@ -5,7 +5,6 @@ import { useActionState } from "react";
 import { requestDonorContactAction } from "@/app/actions/blood-contact";
 import { Alert } from "@/components/ui/alert";
 import { SubmitButton } from "@/components/ui/submit-button";
-import { BLOOD_GROUPS } from "@/lib/constants";
 import { IDLE_FORM_STATE } from "@/lib/utils/form-action-state";
 import type { DonorSearchResult } from "@/lib/services/donor-search.service";
 
