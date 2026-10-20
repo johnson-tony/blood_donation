@@ -14,14 +14,11 @@ export function SignInForm({ callbackUrl }: { callbackUrl: string }) {
   const [state, formAction] = useActionState(signInAction, IDLE_FORM_STATE);
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-1.5">
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">
+    <div className="space-y-3">
+      <div className="space-y-1">
+        <h1 className="text-xl font-semibold tracking-tight text-ink">
           Sign in
         </h1>
-        <p className="text-sm text-ink-muted">
-          Use the email address and password you registered with.
-        </p>
       </div>
 
       {state.status === "error" ? (
