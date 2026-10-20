@@ -46,12 +46,12 @@ export function SignUpForm() {
           required
           error={state.fieldErrors?.confirmPassword?.[0]}
         />
-        <SubmitButton pendingLabel="Creating account…" size="lg" className="mt-3 h-12 rounded-xl">Create account</SubmitButton>
+        <SubmitButton pendingLabel="Creating account…" size="md" className="mt-3 h-10.5 rounded-xl">Create account</SubmitButton>
       </form>
-      <div className="mt-4">
+      <div className="mt-3.5">
         <form action={googleSignInAction}>
           <input type="hidden" name="callbackUrl" value="/onboarding" />
-          <button type="submit" className="flex h-11 w-full items-center justify-center gap-3 rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-sm transition hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mahogany-600">
+          <button type="submit" className="flex h-10.5 w-full items-center justify-center gap-2.5 rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-xs transition hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mahogany-600 cursor-pointer">
             <span aria-hidden="true" className="text-base font-bold text-[#4285F4]">G</span>
             Sign up with Google
           </button>

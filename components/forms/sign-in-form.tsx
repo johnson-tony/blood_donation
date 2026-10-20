@@ -76,7 +76,7 @@ export function SignInForm({ callbackUrl }: { callbackUrl: string }) {
         {callbackUrl !== "/dashboard" ? (
           <input type="hidden" name="callbackUrl" value={callbackUrl} />
         ) : null}
-        <button type="submit" className="flex h-11 w-full items-center justify-center gap-3 rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-sm transition hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mahogany-600">
+        <button type="submit" className="flex h-10.5 w-full items-center justify-center gap-2.5 rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-xs transition hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mahogany-600 cursor-pointer">
           <span aria-hidden="true" className="text-base font-bold text-[#4285F4]">G</span>
           Continue with Google
         </button>

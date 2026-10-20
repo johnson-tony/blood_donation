@@ -7,7 +7,7 @@ export function Label({
   return (
     <label
       className={cn(
-        "block text-sm font-medium text-ink",
+        "block text-xs font-semibold text-ink-secondary tracking-tight",
         "peer-disabled:opacity-60",
         className,
       )}

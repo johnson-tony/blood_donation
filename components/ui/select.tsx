@@ -2,12 +2,12 @@ import { cn } from "@/lib/utils/cn";
 import { Field } from "@/components/ui/input";
 
 const SELECT_BASE =
-  "block h-11 w-full appearance-none rounded-lg border bg-surface px-3 pr-9 text-[0.9375rem] text-ink transition-colors duration-150 disabled:cursor-not-allowed disabled:bg-surface-muted disabled:text-ink-muted";
+  "block h-10.5 w-full appearance-none rounded-xl border bg-surface px-3.5 pr-9 text-sm font-medium text-ink transition-all duration-150 disabled:cursor-not-allowed disabled:bg-surface-muted disabled:text-ink-muted focus:outline-none focus:ring-4 focus:bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.03)]";
 
 const SELECT_TONE = (invalid: boolean) =>
   invalid
-    ? "border-mahogany-600 focus:border-mahogany-700"
-    : "border-line-strong hover:border-ink-subtle focus:border-mahogany-600";
+    ? "border-red-500 text-red-950 focus:border-red-600 focus:ring-red-500/15"
+    : "border-line-strong/80 hover:border-ink-subtle/70 focus:border-mahogany-600 focus:ring-mahogany-600/10";
 
 export type SelectOption = { value: string; label: string };
 

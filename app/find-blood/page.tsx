@@ -80,16 +80,16 @@ export default async function FindBloodPage({ searchParams }: { searchParams: Se
         {/* Filter Card */}
         <form
           method="get"
-          className="mt-10 rounded-[28px] border border-line bg-surface p-6 shadow-raised sm:p-8"
+          className="mt-8 rounded-[24px] border border-line bg-surface p-5 shadow-raised sm:p-6"
         >
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <label className="block">
-              <span className="mb-2 block text-xs font-bold text-ink-secondary">Blood Group</span>
+              <span className="mb-1.5 block text-xs font-bold text-ink-secondary">Blood Group</span>
               <select
                 name="bloodGroup"
                 defaultValue={bloodGroup ?? ""}
                 required
-                className="h-12 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-semibold text-ink outline-none transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10"
+                className="h-10.5 w-full rounded-xl border border-line-strong/80 bg-surface px-3.5 text-sm font-semibold text-ink outline-none transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10 shadow-xs"
               >
                 <option value="" disabled>Select blood group</option>
                 {BLOOD_GROUPS.map((group) => (
@@ -104,18 +104,18 @@ export default async function FindBloodPage({ searchParams }: { searchParams: Se
               ["locality", "Village / Locality", locality, "e.g. Lalgudi"],
             ].map(([name, label, value, placeholder]) => (
               <label key={name} className="block">
-                <span className="mb-2 block text-xs font-bold text-ink-secondary">{label}</span>
+                <span className="mb-1.5 block text-xs font-bold text-ink-secondary">{label}</span>
                 <input
                   name={name}
                   defaultValue={value}
                   placeholder={placeholder}
-                  className="h-12 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-medium outline-none placeholder:text-ink-subtle transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10"
+                  className="h-10.5 w-full rounded-xl border border-line-strong/80 bg-surface px-3.5 text-sm font-medium outline-none placeholder:text-ink-subtle transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10 shadow-xs"
                 />
               </label>
             ))}
           </div>
 
-          <div className="mt-6 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-5 flex flex-col gap-3.5 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-ink-muted">
               🔒 Phone numbers stay private until you send a direct request.
             </p>
@@ -123,12 +123,12 @@ export default async function FindBloodPage({ searchParams }: { searchParams: Se
               type="submit"
               className={buttonClasses({
                 variant: "primary",
-                size: "lg",
+                size: "md",
                 shape: "pill",
-                className: "px-7 shadow-glow sm:w-auto",
+                className: "h-10.5 px-6 shadow-glow sm:w-auto text-sm",
               })}
             >
-              <IconSearch className="size-4.5" />
+              <IconSearch className="size-4" />
               <span>Search Available Donors</span>
             </button>
           </div>

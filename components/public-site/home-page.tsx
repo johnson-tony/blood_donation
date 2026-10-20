@@ -260,15 +260,15 @@ export function PublicHome() {
           </div>
 
           <div className="mx-auto mt-10 max-w-3xl">
-            <form action="/find-blood" method="get" className="rounded-[28px] border border-line bg-surface p-4 shadow-raised sm:p-6">
-              <div className="grid gap-4 sm:grid-cols-[1fr_1.5fr_auto]">
+            <form action="/find-blood" method="get" className="rounded-[24px] border border-line bg-surface p-4 shadow-raised sm:p-5">
+              <div className="grid gap-3.5 sm:grid-cols-[1fr_1.5fr_auto]">
                 <label className="block">
-                  <span className="mb-2 block text-xs font-bold text-ink-secondary">Blood Group</span>
+                  <span className="mb-1.5 block text-xs font-bold text-ink-secondary">Blood Group</span>
                   <select
                     name="bloodGroup"
                     required
                     defaultValue=""
-                    className="h-12 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-semibold text-ink outline-none transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10"
+                    className="h-10.5 w-full rounded-xl border border-line-strong/80 bg-surface px-3.5 text-sm font-semibold text-ink outline-none transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10 shadow-xs"
                   >
                     <option value="" disabled>Select group</option>
                     {BLOOD_GROUPS.map((group) => (
@@ -278,15 +278,15 @@ export function PublicHome() {
                 </label>
 
                 <label className="block">
-                  <span className="mb-2 block text-xs font-bold text-ink-secondary">Locality or District</span>
+                  <span className="mb-1.5 block text-xs font-bold text-ink-secondary">Locality or District</span>
                   <div className="relative">
                     <input
                       name="locality"
                       placeholder="e.g. Indiranagar, Bangalore"
                       autoComplete="address-level3"
-                      className="h-12 w-full rounded-2xl border border-line-strong bg-surface pl-10 pr-4 text-sm font-medium text-ink outline-none placeholder:text-ink-subtle transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10"
+                      className="h-10.5 w-full rounded-xl border border-line-strong/80 bg-surface pl-9 pr-3.5 text-sm font-medium text-ink outline-none placeholder:text-ink-subtle transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10 shadow-xs"
                     />
-                    <IconMapPin className="absolute left-3.5 top-3.5 size-4.5 text-ink-subtle" />
+                    <IconMapPin className="absolute left-3 top-3 size-4 text-ink-subtle" />
                   </div>
                 </label>
 
@@ -297,7 +297,7 @@ export function PublicHome() {
                       variant: "primary",
                       size: "md",
                       shape: "pill",
-                      className: "h-12 w-full px-6 shadow-glow sm:w-auto",
+                      className: "h-10.5 w-full px-6 shadow-glow sm:w-auto text-sm",
                     })}
                   >
                     <IconSearch className="size-4" />
