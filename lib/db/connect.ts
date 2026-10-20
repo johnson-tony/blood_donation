@@ -43,32 +43,16 @@ const cache: MongooseCache = (globalForMongoose.__bloodDonationMongoose ??= {
  * safe to log.
  */
 function readMongoUri(): string {
-  const uri = process.env[URI_ENV_VAR]?.trim();
+  let uri = process.env[URI_ENV_VAR]?.trim();
 
   if (!uri) {
     throw new Error(
-      `${URI_ENV_VAR} is not set. Copy .env.example to .env.local and provide a MongoDB connection string.`,
+      `${URI_ENV_VAR} is not set in environment variables. Please add MONGODB_URI in Vercel settings.`,
     );
   }
 
-  let hasDatabaseName = false;
-  try {
-    const { protocol, pathname } = new URL(uri);
-    if (!protocol.startsWith("mongodb")) {
-      throw new Error("unsupported protocol");
-    }
-    hasDatabaseName = Boolean(pathname && pathname !== "/");
-  } catch {
-    throw new Error(
-      `${URI_ENV_VAR} is not a valid connection string, for example mongodb://127.0.0.1:27017/blood_donation.`,
-    );
-  }
-
-  if (!hasDatabaseName) {
-    throw new Error(
-      `${URI_ENV_VAR} must include a database name, for example mongodb://127.0.0.1:27017/blood_donation.`,
-    );
-  }
+  // Strip wrapping quotes if accidentally pasted
+  uri = uri.replace(/^["']|["']$/g, "").trim();
 
   return uri;
 }
@@ -90,6 +74,7 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
 
     cache.promise = mongoose
       .connect(uri, {
+        dbName: "blood_donation",
         // Fail fast instead of silently buffering queries forever when the
         // database is unreachable.
         bufferCommands: false,

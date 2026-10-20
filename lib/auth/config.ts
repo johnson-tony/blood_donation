@@ -107,21 +107,22 @@ export const authConfig = {
 
       if (!email) {
         console.error("Google signIn: No email address received from Google profile.");
-        return false;
+        return "/sign-in?error=AccessDenied&details=" + encodeURIComponent("Google did not return an email address.");
       }
 
       // Explicitly reject only if Google explicitly marks email_verified as false
       if (googleProfile?.email_verified === false) {
         console.error("Google signIn: Email is not verified by Google.");
-        return false;
+        return "/sign-in?error=AccessDenied&details=" + encodeURIComponent("Your Google account email is not verified.");
       }
 
       try {
         await findOrCreateGoogleUser({ email, name: name ?? email });
         return true;
-      } catch (err) {
-        console.error("Google signIn: Error saving or finding user in database:", err);
-        return false;
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.error("Google signIn: Error saving or finding user in database:", message);
+        return "/sign-in?error=AccessDenied&details=" + encodeURIComponent(message);
       }
     },
 

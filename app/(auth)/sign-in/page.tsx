@@ -11,10 +11,16 @@ export const metadata: Metadata = {
 export default async function SignInPage({
   searchParams,
 }: {
-  searchParams: Promise<{ callbackUrl?: string; error?: string }>;
+  searchParams: Promise<{ callbackUrl?: string; error?: string; details?: string }>;
 }) {
   const params = await searchParams;
   const callbackUrl = safeCallbackUrl(params.callbackUrl, "/dashboard");
 
-  return <SignInForm callbackUrl={callbackUrl} urlError={params.error} />;
+  return (
+    <SignInForm
+      callbackUrl={callbackUrl}
+      urlError={params.error}
+      urlDetails={params.details}
+    />
+  );
 }
