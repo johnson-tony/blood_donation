@@ -15,11 +15,8 @@ export function SignUpForm() {
 
   return (
     <div className="mx-auto w-full max-w-md">
-      <div className="mb-8">
-        <div className="mb-6 flex size-12 items-center justify-center rounded-2xl bg-mahogany-600 text-xl font-bold text-white shadow-raised">+</div>
-        <p className="text-xs font-bold uppercase tracking-[0.18em] text-mahogany-600">BloodLink · Donor network</p>
-        <h1 className="mt-3 text-3xl font-bold tracking-[-0.03em] text-ink sm:text-4xl">Create your account.</h1>
-        <p className="mt-3 text-[15px] leading-6 text-ink-muted">Start with the basics. We’ll ask for your donor details next.</p>
+      <div className="mb-4">
+        <h1 className="mt-3 text-xl font-bold tracking-[-0.03em] text-ink">Create your account.</h1>
       </div>
       {state.status === "error" ? <Alert tone="error" title="Couldn’t create your account">{state.message}</Alert> : null}
       <form action={formAction} className="mt-7 space-y-4">
