@@ -36,13 +36,8 @@ export const authConfig = {
 
   providers: [
     Google({
-<<<<<<< Updated upstream
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-=======
       clientId: process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET || process.env.GOOGLE_CLIENT_SECRET,
->>>>>>> Stashed changes
     }),
     Credentials({
       id: "credentials",

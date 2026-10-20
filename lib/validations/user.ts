@@ -6,19 +6,15 @@ import { BLOOD_GROUPS } from "@/types/user";
  * Rules that every password in this product must satisfy. Kept in one place so
  * the sign-up form hint text and the server-side schema can never drift apart.
  */
-export const PASSWORD_MIN_LENGTH = 8;
+export const PASSWORD_MIN_LENGTH = 6;
 
 export const PASSWORD_REQUIREMENTS = [
   `At least ${PASSWORD_MIN_LENGTH} characters`,
-  "At least one letter",
-  "At least one number",
 ] as const;
 
 const password = z
   .string()
-  .min(PASSWORD_MIN_LENGTH, `Use at least ${PASSWORD_MIN_LENGTH} characters.`)
-  .regex(/[A-Za-z]/, "Include at least one letter.")
-  .regex(/[0-9]/, "Include at least one number.");
+  .min(PASSWORD_MIN_LENGTH, `Password must be at least ${PASSWORD_MIN_LENGTH} characters.`);
 
 const fullName = z
   .string()

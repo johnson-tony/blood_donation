@@ -8,7 +8,6 @@ import { Alert } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { IDLE_FORM_STATE } from "@/lib/utils/form-action-state";
-import { PASSWORD_REQUIREMENTS } from "@/lib/validations/user";
 
 export function SignUpForm() {
   const [state, formAction] = useActionState(signUpAction, IDLE_FORM_STATE);
@@ -26,9 +25,27 @@ export function SignUpForm() {
       <form action={formAction} className="mt-7 space-y-4">
         <Input id="name" name="name" type="text" label="Full name" autoComplete="name" placeholder="Your name" required error={state.fieldErrors?.name?.[0]} />
         <Input id="email" name="email" type="email" label="Email address" autoComplete="email" inputMode="email" placeholder="you@example.com" required error={state.fieldErrors?.email?.[0]} />
-        <Input id="password" name="password" type="password" label="Password" autoComplete="new-password" required hint={`Must have ${PASSWORD_REQUIREMENTS.join(", ").toLowerCase()}.`} error={passwordErrors[0]} />
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          label="Password"
+          autoComplete="new-password"
+          placeholder="Choose a password"
+          required
+          error={passwordErrors[0]}
+        />
         {passwordErrors.length > 1 ? <p className="text-sm text-mahogany-700">{passwordErrors.slice(1).join(" ")}</p> : null}
-        <Input id="confirmPassword" name="confirmPassword" type="password" label="Confirm password" autoComplete="new-password" required error={state.fieldErrors?.confirmPassword?.[0]} />
+        <Input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          label="Confirm password"
+          autoComplete="new-password"
+          placeholder="Confirm your password"
+          required
+          error={state.fieldErrors?.confirmPassword?.[0]}
+        />
         <SubmitButton pendingLabel="Creating account…" size="lg" className="mt-3 h-12 rounded-xl">Create account</SubmitButton>
       </form>
       <div className="mt-4">
