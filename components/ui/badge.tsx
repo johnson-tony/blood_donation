@@ -1,12 +1,14 @@
 import { cn } from "@/lib/utils/cn";
 
-export type BadgeTone = "neutral" | "brand" | "success" | "muted";
+export type BadgeTone = "neutral" | "brand" | "success" | "muted" | "urgent" | "confirmed";
 
 const TONES: Record<BadgeTone, string> = {
   neutral: "bg-surface-muted text-ink-secondary ring-line-strong",
-  brand: "bg-mahogany-50 text-mahogany-800 ring-mahogany-200",
-  success: "bg-success-surface text-success ring-success-line",
+  brand: "bg-mahogany-50 text-mahogany-700 ring-mahogany-200/70 font-semibold",
+  success: "bg-emerald-50 text-emerald-700 ring-emerald-200/80 font-semibold",
   muted: "bg-transparent text-ink-subtle ring-line",
+  urgent: "bg-red-500 text-white ring-red-600 shadow-sm font-semibold",
+  confirmed: "bg-gradient-to-r from-mahogany-600 to-mahogany-700 text-white ring-mahogany-700 font-semibold shadow-sm",
 };
 
 export function Badge({
@@ -17,7 +19,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset",
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs tracking-[-0.01em] ring-1 ring-inset",
         TONES[tone],
         className,
       )}
@@ -27,26 +29,26 @@ export function Badge({
 }
 
 /**
- * A status indicator. The dot is decorative and always paired with a text
- * label, so the state is never communicated by colour alone.
+ * A status indicator dot with optional glow.
  */
 export function StatusDot({
   tone = "neutral",
   className,
 }: {
-  tone?: "neutral" | "success" | "brand";
+  tone?: "neutral" | "success" | "brand" | "urgent";
   className?: string;
 }) {
   const colors = {
     neutral: "bg-ink-subtle",
-    success: "bg-success",
+    success: "bg-emerald-500",
     brand: "bg-mahogany-600",
+    urgent: "bg-red-500 animate-ping",
   } as const;
 
   return (
     <span
       aria-hidden="true"
-      className={cn("size-1.5 shrink-0 rounded-full", colors[tone], className)}
+      className={cn("size-2 shrink-0 rounded-full", colors[tone], className)}
     />
   );
 }

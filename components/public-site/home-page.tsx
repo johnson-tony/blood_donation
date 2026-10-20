@@ -1,142 +1,419 @@
 import Link from "next/link";
 
 import { BrandLogo } from "@/components/layout/brand";
+import {
+  IconActivity,
+  IconArrowRight,
+  IconCalendar,
+  IconChevronRight,
+  IconClock,
+  IconDroplet,
+  IconHeart,
+  IconMapPin,
+  IconSearch,
+  IconStethoscope,
+} from "@/components/layout/icons";
 import { buttonClasses } from "@/components/ui/button";
 import { BLOOD_GROUPS } from "@/lib/constants";
 
-function ArrowIcon() {
-  return <span aria-hidden="true">→</span>;
-}
-
 export function PublicHome() {
   return (
-    <main className="min-h-screen bg-canvas text-ink">
-      <header className="sticky top-0 z-50 border-b border-line/80 bg-canvas/95 backdrop-blur-xl">
-        <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+    <main className="min-h-screen bg-canvas text-ink selection:bg-mahogany-100 selection:text-mahogany-900">
+      {/* Top Header */}
+      <header className="sticky top-0 z-50 border-b border-line/70 bg-surface/85 backdrop-blur-xl">
+        <div className="mx-auto flex h-[4.75rem] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
           <BrandLogo />
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
-            <a href="#find-blood" className="text-sm font-medium text-ink-secondary hover:text-ink">Find Blood</a>
-            <a href="#donate" className="text-sm font-medium text-ink-secondary hover:text-ink">Donate Blood</a>
-            <a href="#how-it-works" className="text-sm font-medium text-ink-secondary hover:text-ink">How It Works</a>
-            <a href="#camps" className="text-sm font-medium text-ink-secondary hover:text-ink">Blood Camps</a>
-            <Link href="/hospitals" className="text-sm font-medium text-ink-secondary hover:text-ink">Hospitals</Link>
+          <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
+            <a href="#find-blood" className="text-sm font-semibold text-ink-secondary transition-colors hover:text-mahogany-600">Find Blood</a>
+            <a href="#how-it-works" className="text-sm font-semibold text-ink-secondary transition-colors hover:text-mahogany-600">How It Works</a>
+            <a href="#what-to-expect" className="text-sm font-semibold text-ink-secondary transition-colors hover:text-mahogany-600">What to Expect</a>
+            <Link href="/blood-camps" className="text-sm font-semibold text-ink-secondary transition-colors hover:text-mahogany-600">Blood Camps</Link>
+            <Link href="/hospitals" className="text-sm font-semibold text-ink-secondary transition-colors hover:text-mahogany-600">Hospitals</Link>
           </nav>
-          <div className="flex items-center gap-2.5">
-            <Link href="/sign-in" className="hidden rounded-xl px-3.5 py-2 text-sm font-semibold text-ink-secondary hover:bg-surface-muted hover:text-ink sm:inline-flex">Sign in</Link>
-            <Link href="/sign-up" className={buttonClasses({ size: "sm", className: "w-auto rounded-xl px-4" })}>Become a donor</Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/sign-in"
+              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-ink-secondary transition hover:bg-surface-muted hover:text-ink sm:inline-flex"
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/sign-up"
+              className={buttonClasses({
+                variant: "primary",
+                size: "sm",
+                shape: "pill",
+                className: "px-5 shadow-glow",
+              })}
+            >
+              Become a donor
+              <IconArrowRight className="size-3.5" />
+            </Link>
           </div>
         </div>
       </header>
 
-      <section className="relative overflow-hidden border-b border-line">
-        <div className="absolute -right-40 -top-40 size-[34rem] rounded-full bg-mahogany-100/60 blur-3xl" aria-hidden="true" />
-        <div className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-20 pt-14 sm:px-8 sm:pt-20 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:px-10 lg:pb-24">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden border-b border-line/70">
+        {/* Glow backdrop effects */}
+        <div className="pointer-events-none absolute -right-36 -top-36 size-[32rem] rounded-full bg-mahogany-500/10 blur-[120px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute -left-20 top-1/2 size-[26rem] -translate-y-1/2 rounded-full bg-mahogany-600/5 blur-[100px]" aria-hidden="true" />
+
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-20 pt-12 sm:px-8 sm:pt-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-10 lg:pb-24">
           <div className="max-w-2xl">
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-mahogany-200 bg-surface px-3.5 py-2 text-xs font-semibold text-mahogany-800 shadow-card">
-              <span className="size-2 rounded-full bg-mahogany-600" /> Blood donation, made human.
+            {/* Pill Announcement */}
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-mahogany-200/80 bg-surface px-4 py-1.5 text-xs font-semibold text-mahogany-700 shadow-card">
+              <span className="flex size-2 rounded-full bg-mahogany-600 animate-pulse" />
+              Every Drop Holds Hope
             </div>
-            <h1 className="text-[2.9rem] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-6xl lg:text-[4.45rem]">
-              Find blood.
-              <span className="block text-mahogany-700">Find a donor.</span>
-              <span className="block">Help save a life.</span>
+
+            <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl lg:text-[4.25rem]">
+              Your Blood Deserves
+              <span className="block bg-gradient-to-r from-mahogany-600 via-mahogany-700 to-mahogany-800 bg-clip-text text-transparent">
+                to Save a Life.
+              </span>
             </h1>
-            <p className="mt-7 max-w-xl text-base leading-7 text-ink-secondary sm:text-lg">
-              Find willing blood donors near you when every minute matters. Search by blood group and locality, then connect directly.
+
+            <p className="mt-6 max-w-xl text-base leading-7 text-ink-secondary sm:text-lg">
+              Advanced, locality-first blood donor matching. Connect with voluntary donors, find emergency blood units, and schedule donations in minutes.
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <a href="#find-blood" className={buttonClasses({ size: "lg", className: "w-full sm:w-auto sm:min-w-40" })}>Find blood <ArrowIcon /></a>
-              <a href="#donate" className={buttonClasses({ variant: "secondary", size: "lg", className: "w-full sm:w-auto sm:min-w-40" })}>Become a donor</a>
+
+            {/* CTA Group with Pill + Circular Button */}
+            <div className="mt-8 flex flex-wrap items-center gap-3.5">
+              <a
+                href="#find-blood"
+                className={buttonClasses({
+                  variant: "primary",
+                  size: "lg",
+                  shape: "pill",
+                  className: "shadow-glow min-w-44 px-7 text-sm sm:text-base",
+                })}
+              >
+                Find Blood Now
+                <IconArrowRight className="size-4" />
+              </a>
+
+              <Link
+                href="/sign-up"
+                className={buttonClasses({
+                  variant: "secondary",
+                  size: "lg",
+                  shape: "pill",
+                  className: "px-6 text-sm sm:text-base",
+                })}
+              >
+                Become a Donor
+              </Link>
+
+              {/* Circular Quick Action Button */}
+              <Link
+                href="/need-blood"
+                title="Immediate Blood Request"
+                className="inline-flex size-13 items-center justify-center rounded-full border border-line bg-surface text-mahogany-600 shadow-card transition-all duration-200 hover:scale-105 hover:border-mahogany-200 hover:bg-mahogany-50 active:scale-95"
+              >
+                <IconHeart className="size-6 fill-mahogany-600 text-mahogany-600" />
+              </Link>
             </div>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium text-ink-muted">
-              <span>✓ Locality-first matching</span>
-              <span>✓ Private contact details</span>
-              <span>✓ No unnecessary steps</span>
+
+            <div className="mt-9 flex flex-wrap gap-x-6 gap-y-2.5 text-xs font-semibold text-ink-muted">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="flex size-4 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">✓</span>
+                Locality-first matching
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="flex size-4 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">✓</span>
+                Private contact details
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="flex size-4 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">✓</span>
+                100% Free & Voluntary
+              </span>
             </div>
           </div>
 
-          <div id="find-blood" className="relative">
-            <div className="rounded-[1.75rem] border border-line bg-surface p-2 shadow-raised sm:p-3">
-              <div className="rounded-[1.35rem] bg-surface-muted p-5 sm:p-7">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-mahogany-700">Find a donor</p>
-                <h2 className="mt-2 text-2xl font-semibold tracking-tight">Start with what you know.</h2>
-                <p className="mt-2 text-sm leading-6 text-ink-muted">Search by blood group and your nearest location.</p>
-                <form action="/find-blood" method="get" className="mt-7 space-y-4">
-                  <label className="block">
-                    <span className="mb-2 block text-xs font-semibold text-ink-secondary">Blood group</span>
-                    <select name="bloodGroup" required className="h-13 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-medium outline-none transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10" defaultValue="">
-                      <option value="" disabled>Select blood group</option>
-                      {BLOOD_GROUPS.map((group) => <option key={group} value={group}>{group}</option>)}
-                    </select>
-                  </label>
-                  <label className="block">
-                    <span className="mb-2 block text-xs font-semibold text-ink-secondary">Location</span>
-                    <input name="locality" placeholder="Village, locality or district" autoComplete="address-level3" className="h-13 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-medium outline-none placeholder:text-ink-subtle transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10" />
-                  </label>
-                  <button type="submit" className={buttonClasses({ size: "lg", className: "mt-2 w-full rounded-2xl" })}>Find available donors <ArrowIcon /></button>
-                </form>
-                <p className="mt-5 text-center text-[0.72rem] leading-5 text-ink-subtle">Donor phone numbers are not publicly exposed. Contact details are shared through the request flow.</p>
+          {/* Right Showcase: CardioLife Inspired Visual Cards */}
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            {/* Background glowing frame */}
+            <div className="rounded-[32px] border border-line/80 bg-gradient-to-b from-surface via-surface to-surface-muted/60 p-4 shadow-raised sm:p-5">
+              {/* App-like top status indicator */}
+              <div className="mb-4 flex items-center justify-between px-2">
+                <div className="flex items-center gap-2">
+                  <div className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-ink-muted">Live Donor Network</span>
+                </div>
+                <span className="text-xs font-semibold text-mahogany-700">Active Now</span>
+              </div>
+
+              {/* CARD 1: Featured Crimson Card (like CardioLife middle screen top card) */}
+              <div className="relative overflow-hidden rounded-[24px] bg-gradient-to-br from-mahogany-600 via-mahogany-700 to-mahogany-800 p-5 text-white shadow-glow">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex size-7 items-center justify-center rounded-full bg-white/20 text-white">
+                      <IconDroplet className="size-4 fill-white" />
+                    </span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-white/90">Urgent Match</span>
+                  </div>
+                  <span className="rounded-full bg-white/20 px-3 py-1 text-[0.7rem] font-semibold tracking-wide text-white">
+                    NEEDED TODAY
+                  </span>
+                </div>
+
+                <div className="mt-4 flex items-center gap-3">
+                  {/* Avatar stack */}
+                  <div className="flex -space-x-2">
+                    <div className="flex size-8 items-center justify-center rounded-full border-2 border-mahogany-700 bg-white text-[0.65rem] font-bold text-mahogany-700">O+</div>
+                    <div className="flex size-8 items-center justify-center rounded-full border-2 border-mahogany-700 bg-white text-[0.65rem] font-bold text-mahogany-700">A+</div>
+                    <div className="flex size-8 items-center justify-center rounded-full border-2 border-mahogany-700 bg-white text-[0.65rem] font-bold text-mahogany-700">B+</div>
+                    <div className="flex size-8 items-center justify-center rounded-full border-2 border-mahogany-700 bg-mahogany-900 text-[0.65rem] font-bold text-white">+5</div>
+                  </div>
+                  <span className="text-xs font-medium text-white/85">8 Donors available nearby</span>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between border-t border-white/20 pt-4">
+                  <div>
+                    <h2 className="text-base font-bold">City Central Hospital</h2>
+                    <p className="text-xs text-white/75">Emergency Blood Bank • 2.4 km away</p>
+                  </div>
+                  <Link
+                    href="/find-blood"
+                    className="flex size-9 items-center justify-center rounded-full bg-white text-mahogany-700 shadow-sm transition hover:scale-105 active:scale-95"
+                    aria-label="View urgent match"
+                  >
+                    <IconChevronRight className="size-4.5" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* CARD 2: White Elevated Service Card (Scheduled Camp) */}
+              <div className="mt-3.5 flex items-center justify-between rounded-[22px] border border-line bg-surface p-4 shadow-card transition hover:border-mahogany-200 hover:shadow-raised">
+                <div className="flex items-center gap-3.5">
+                  <div className="flex size-11 items-center justify-center rounded-2xl bg-mahogany-50 text-mahogany-600">
+                    <IconCalendar className="size-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h2 className="text-sm font-bold text-ink">Community Blood Drive</h2>
+                      <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[0.65rem] font-semibold text-emerald-700">Open</span>
+                    </div>
+                    <p className="text-xs text-ink-muted">Red Cross Civic Center • 09:00 - 02:00 PM</p>
+                  </div>
+                </div>
+                <Link
+                  href="/blood-camps"
+                  className="flex size-8 items-center justify-center rounded-full bg-surface-muted text-ink-secondary transition hover:bg-mahogany-50 hover:text-mahogany-700"
+                  aria-label="View blood camp details"
+                >
+                  <IconChevronRight className="size-4" />
+                </Link>
+              </div>
+
+              {/* CARD 3: White Elevated Service Card (Doctor / Verified Donor Consultation) */}
+              <div className="mt-3 flex items-center justify-between rounded-[22px] border border-line bg-surface p-4 shadow-card transition hover:border-mahogany-200 hover:shadow-raised">
+                <div className="flex items-center gap-3.5">
+                  <div className="flex size-11 items-center justify-center rounded-2xl bg-mahogany-50 text-mahogany-600">
+                    <IconStethoscope className="size-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h2 className="text-sm font-bold text-ink">Donor Health Screening</h2>
+                      <span className="rounded-full bg-mahogany-50 px-2 py-0.5 text-[0.65rem] font-semibold text-mahogany-700">Free</span>
+                    </div>
+                    <p className="text-xs text-ink-muted">Hemoglobin, BP & Compatibility • 15 min</p>
+                  </div>
+                </div>
+                <Link
+                  href="/hospitals"
+                  className="flex size-8 items-center justify-center rounded-full bg-surface-muted text-ink-secondary transition hover:bg-mahogany-50 hover:text-mahogany-700"
+                  aria-label="View health screening details"
+                >
+                  <IconChevronRight className="size-4" />
+                </Link>
+              </div>
+
+              {/* Bottom pill banner inside showcase */}
+              <div className="mt-4 flex items-center justify-between rounded-2xl bg-surface-muted/80 px-4 py-2.5 text-xs">
+                <span className="font-medium text-ink-secondary">Caring for lives, every step of the way.</span>
+                <Link href="/find-blood" className="font-bold text-mahogany-600 hover:text-mahogany-700">
+                  Search Now →
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="how-it-works" className="border-b border-line bg-surface">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
+      {/* Filter / Search Section (Inspired by Middle Screen) */}
+      <section id="find-blood" className="border-b border-line bg-surface py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-mahogany-600">Direct Locality Matching</span>
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">Find Available Blood Donors</h2>
+            <p className="mt-3 text-base text-ink-muted">Filter by blood group and locality to connect directly with willing donors in your area.</p>
+
+            {/* Category Filter Pills (Like CardioLife Filter Chips) */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+              <span className="cursor-pointer rounded-full bg-mahogany-600 px-4 py-1.5 text-xs font-bold text-white shadow-sm">All Groups</span>
+              <span className="cursor-pointer rounded-full border border-line bg-surface px-4 py-1.5 text-xs font-semibold text-ink-secondary hover:border-mahogany-300 hover:text-mahogany-700">O Positive (Universal)</span>
+              <span className="cursor-pointer rounded-full border border-line bg-surface px-4 py-1.5 text-xs font-semibold text-ink-secondary hover:border-mahogany-300 hover:text-mahogany-700">Rare (O-, AB-)</span>
+              <span className="cursor-pointer rounded-full border border-line bg-surface px-4 py-1.5 text-xs font-semibold text-ink-secondary hover:border-mahogany-300 hover:text-mahogany-700">Blood Camps</span>
+            </div>
+          </div>
+
+          <div className="mx-auto mt-10 max-w-3xl">
+            <form action="/find-blood" method="get" className="rounded-[28px] border border-line bg-surface p-4 shadow-raised sm:p-6">
+              <div className="grid gap-4 sm:grid-cols-[1fr_1.5fr_auto]">
+                <label className="block">
+                  <span className="mb-2 block text-xs font-bold text-ink-secondary">Blood Group</span>
+                  <select
+                    name="bloodGroup"
+                    required
+                    defaultValue=""
+                    className="h-12 w-full rounded-2xl border border-line-strong bg-surface px-4 text-sm font-semibold text-ink outline-none transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10"
+                  >
+                    <option value="" disabled>Select group</option>
+                    {BLOOD_GROUPS.map((group) => (
+                      <option key={group} value={group}>{group}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="block">
+                  <span className="mb-2 block text-xs font-bold text-ink-secondary">Locality or District</span>
+                  <div className="relative">
+                    <input
+                      name="locality"
+                      placeholder="e.g. Indiranagar, Bangalore"
+                      autoComplete="address-level3"
+                      className="h-12 w-full rounded-2xl border border-line-strong bg-surface pl-10 pr-4 text-sm font-medium text-ink outline-none placeholder:text-ink-subtle transition focus:border-mahogany-600 focus:ring-4 focus:ring-mahogany-600/10"
+                    />
+                    <IconMapPin className="absolute left-3.5 top-3.5 size-4.5 text-ink-subtle" />
+                  </div>
+                </label>
+
+                <div className="flex items-end">
+                  <button
+                    type="submit"
+                    className={buttonClasses({
+                      variant: "primary",
+                      size: "md",
+                      shape: "pill",
+                      className: "h-12 w-full px-6 shadow-glow sm:w-auto",
+                    })}
+                  >
+                    <IconSearch className="size-4" />
+                    <span>Search</span>
+                  </button>
+                </div>
+              </div>
+              <p className="mt-4 text-center text-[0.75rem] text-ink-subtle">
+                Donor phone numbers remain private until a direct request is confirmed.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* "What to Expect" Section (Inspired by Right Screen of CardioLife) */}
+      <section id="what-to-expect" className="border-b border-line bg-canvas py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <div className="max-w-xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-mahogany-700">How it works</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">Three clear steps. No noise.</h2>
-            <p className="mt-4 text-base leading-7 text-ink-secondary">The product stays out of the way so people can focus on connecting the right people quickly.</p>
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-mahogany-600">The Donation Process</span>
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">What to Expect</h2>
+            <p className="mt-3 text-base text-ink-secondary">
+              Donating blood is simple, safe, and takes less than an hour from start to finish. Here is what happens step by step.
+            </p>
           </div>
-          <div className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-line bg-line md:grid-cols-3">
-            {[
-              ["01", "Search", "Choose the blood group and area where blood is needed."],
-              ["02", "Request", "Send a focused request to a suitable available donor."],
-              ["03", "Connect", "Contact the donor directly and coordinate the donation."],
-            ].map(([number, title, description]) => (
-              <div key={number} className="bg-surface p-7 sm:p-9">
-                <span className="text-xs font-semibold tracking-[0.14em] text-mahogany-600">{number}</span>
-                <h3 className="mt-10 text-xl font-semibold">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-ink-muted">{description}</p>
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Step 1 */}
+            <div className="rounded-[26px] border border-line bg-surface p-6 shadow-card transition duration-200 hover:-translate-y-1 hover:border-mahogany-200 hover:shadow-raised">
+              <div className="flex size-12 items-center justify-center rounded-2xl bg-mahogany-50 text-mahogany-600 shadow-sm">
+                <IconStethoscope className="size-6" />
               </div>
-            ))}
+              <span className="mt-4 inline-block text-[0.7rem] font-bold uppercase tracking-wider text-mahogany-600">Step 01</span>
+              <h3 className="mt-1 text-lg font-bold text-ink">Health Checkup</h3>
+              <p className="mt-2 text-sm leading-6 text-ink-muted">
+                A quick check of temperature, blood pressure, pulse, and hemoglobin to ensure you are fit to donate.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="rounded-[26px] border border-line bg-surface p-6 shadow-card transition duration-200 hover:-translate-y-1 hover:border-mahogany-200 hover:shadow-raised">
+              <div className="flex size-12 items-center justify-center rounded-2xl bg-mahogany-50 text-mahogany-600 shadow-sm">
+                <IconActivity className="size-6" />
+              </div>
+              <span className="mt-4 inline-block text-[0.7rem] font-bold uppercase tracking-wider text-mahogany-600">Step 02</span>
+              <h3 className="mt-1 text-lg font-bold text-ink">Blood Donation</h3>
+              <p className="mt-2 text-sm leading-6 text-ink-muted">
+                The actual blood draw takes only 8–10 minutes using sterile, single-use medical equipment.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="rounded-[26px] border border-line bg-surface p-6 shadow-card transition duration-200 hover:-translate-y-1 hover:border-mahogany-200 hover:shadow-raised">
+              <div className="flex size-12 items-center justify-center rounded-2xl bg-mahogany-50 text-mahogany-600 shadow-sm">
+                <IconClock className="size-6" />
+              </div>
+              <span className="mt-4 inline-block text-[0.7rem] font-bold uppercase tracking-wider text-mahogany-600">Step 03</span>
+              <h3 className="mt-1 text-lg font-bold text-ink">Rest & Refreshments</h3>
+              <p className="mt-2 text-sm leading-6 text-ink-muted">
+                Relax for 10–15 minutes while enjoying healthy snacks and juice to replenish fluids and energy.
+              </p>
+            </div>
+
+            {/* Step 4 */}
+            <div className="rounded-[26px] border border-line bg-surface p-6 shadow-card transition duration-200 hover:-translate-y-1 hover:border-mahogany-200 hover:shadow-raised">
+              <div className="flex size-12 items-center justify-center rounded-2xl bg-mahogany-50 text-mahogany-600 shadow-sm">
+                <IconHeart className="size-6 fill-mahogany-600 text-mahogany-600" />
+              </div>
+              <span className="mt-4 inline-block text-[0.7rem] font-bold uppercase tracking-wider text-mahogany-600">Step 04</span>
+              <h3 className="mt-1 text-lg font-bold text-ink">Save 3 Lives</h3>
+              <p className="mt-2 text-sm leading-6 text-ink-muted">
+                Your unit is separated into red cells, platelets, and plasma, giving hope to up to 3 patients in emergency care.
+              </p>
+            </div>
+          </div>
+
+          {/* CardioLife Style Bottom Banner Callout */}
+          <div className="mt-12 overflow-hidden rounded-[26px] bg-gradient-to-r from-mahogany-600 via-mahogany-700 to-mahogany-800 p-6 text-white shadow-glow sm:p-8">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-4">
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-white/20">
+                  <IconHeart className="size-6 fill-white text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold">Caring for your community, every drop of the way.</h3>
+                  <p className="text-sm text-white/80">Every 2 seconds, someone in the country needs blood. Join the voluntary network today.</p>
+                </div>
+              </div>
+              <Link
+                href="/sign-up"
+                className={buttonClasses({
+                  variant: "secondary",
+                  size: "md",
+                  shape: "pill",
+                  className: "shrink-0 bg-white text-mahogany-700 hover:bg-white/90 shadow-sm font-bold",
+                })}
+              >
+                Register as Donor →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="donate" className="border-b border-line">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center lg:px-10 lg:py-24">
-          <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-mahogany-700">For donors</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">Your availability can become someone’s chance.</h2>
-            <p className="mt-5 max-w-xl text-base leading-7 text-ink-secondary">Create a profile, choose when you are available, and let people in your area reach you when your blood group is needed.</p>
-          </div>
-          <Link href="/sign-up" className={buttonClasses({ size: "lg", className: "w-auto min-w-44" })}>Become a donor <ArrowIcon /></Link>
-        </div>
-      </section>
-
-      <section id="camps" className="bg-mahogany-950 text-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-16 sm:px-8 lg:flex-row lg:items-end lg:justify-between lg:px-10 lg:py-20">
-          <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-mahogany-300">Built for real communities</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">Local first. Human always.</h2>
-            <p className="mt-5 max-w-xl text-base leading-7 text-white/65">From a nearby locality to a wider district, the experience is designed around real-world proximity instead of noisy feeds or complicated matching.</p>
-          </div>
-          <div className="flex flex-wrap gap-2 text-xs font-medium text-white/70">
-            {["Locality", "District", "State", "Availability"].map((item) => <span key={item} className="rounded-full border border-white/15 px-3 py-2">{item}</span>)}
-          </div>
-        </div>
-      </section>
-
-      <footer className="bg-surface">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-9 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+      {/* Footer */}
+      <footer className="border-t border-line bg-surface py-12">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10">
           <BrandLogo />
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium text-ink-muted">
-            <Link href="/sign-in" className="hover:text-ink">Sign in</Link>
-            <Link href="/sign-up" className="hover:text-ink">Create account</Link>
-            <a href="#how-it-works" className="hover:text-ink">How it works</a>
+          <div className="flex flex-wrap gap-x-8 gap-y-2 text-xs font-semibold text-ink-muted">
+            <Link href="/find-blood" className="hover:text-mahogany-600">Find Blood</Link>
+            <Link href="/blood-camps" className="hover:text-mahogany-600">Blood Camps</Link>
+            <Link href="/hospitals" className="hover:text-mahogany-600">Hospitals</Link>
+            <Link href="/sign-in" className="hover:text-mahogany-600">Sign in</Link>
+            <Link href="/sign-up" className="hover:text-mahogany-600">Register as Donor</Link>
           </div>
-          <p className="text-xs text-ink-subtle">A focused platform for blood donation.</p>
+          <p className="text-xs text-ink-subtle">A focused, compassionate blood donation platform.</p>
         </div>
       </footer>
     </main>

@@ -157,3 +157,64 @@ export function IconClock({ className }: IconProps) {
     </svg>
   );
 }
+
+export function IconChevronRight({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={cn(BASE, className)}>
+      <path d="m9 18 6-6-6-6" />
+    </svg>
+  );
+}
+
+export function IconArrowRight({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={cn(BASE, className)}>
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+  );
+}
+
+export function IconPulse({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={cn(BASE, className)}>
+      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+    </svg>
+  );
+}
+
+export const IconActivity = IconPulse;
+
+export function IconStethoscope({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={cn(BASE, className)}>
+      <path d="M4.5 4.5v5a4.5 4.5 0 0 0 9 0v-5M7.5 4.5h-3M13.5 4.5h-3" />
+      <path d="M9 14v2a4 4 0 0 0 8 0v-3" />
+      <circle cx="17" cy="10" r="2" />
+    </svg>
+  );
+}
+
+export function IconMapPin({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={cn(BASE, className)}>
+      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
+export function IconPhone({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={cn(BASE, className)}>
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  );
+}
+
+export function IconPlus({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={cn(BASE, className)}>
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  );
+}

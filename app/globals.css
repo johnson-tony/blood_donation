@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   Blood Donation Platform — Design tokens
-   Brand palette is fixed. Neutrals stay warm-grey so red reads as an accent
-   rather than an alarm state.
+   Blood Donation Platform — Design tokens (CardioLife-inspired Medical Theme)
+   Vibrant, high-trust crimson ruby reds, ultra-clean porcelain surfaces,
+   and refined medical app typography and shadows.
    ========================================================================== */
 
 @theme {
@@ -13,44 +13,45 @@
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
     monospace;
 
-  /* --color-mahogany-* — brand ----------------------------------------- */
-  --color-mahogany-50: #fdf5f5;
-  --color-mahogany-100: #fbe8e9;
-  --color-mahogany-200: #f6d2d5;
-  --color-mahogany-300: #ecb0b4;
-  --color-mahogany-400: #dd7d85;
-  --color-mahogany-500: #c74a52;
-  --color-mahogany-600: #ad2831;
-  --color-mahogany-700: #800e13;
-  --color-mahogany-800: #640d14;
-  --color-mahogany-900: #38040e;
-  --color-mahogany-950: #250902;
+  /* --color-mahogany-* — Vibrant blood & medical crimson ---------------- */
+  --color-mahogany-50: #fef2f2;
+  --color-mahogany-100: #fee2e2;
+  --color-mahogany-200: #fecaca;
+  --color-mahogany-300: #fca5a5;
+  --color-mahogany-400: #f87171;
+  --color-mahogany-500: #ef4444;
+  --color-mahogany-600: #c1121f;
+  --color-mahogany-700: #9b111e;
+  --color-mahogany-800: #7a0c16;
+  --color-mahogany-900: #55070e;
+  --color-mahogany-950: #330307;
 
   /* --color-* — semantic surfaces, lines and type ---------------------- */
-  --color-canvas: #faf9f8;
+  --color-canvas: #f8f9fa;
   --color-surface: #ffffff;
-  --color-surface-muted: #f6f5f4;
-  --color-line: #e7e5e4;
-  --color-line-strong: #d6d3d1;
+  --color-surface-muted: #f3f4f6;
+  --color-line: #e9ecef;
+  --color-line-strong: #dee2e6;
 
-  --color-ink: #1c1917;
-  --color-ink-secondary: #57534e;
-  --color-ink-muted: #78716c;
-  --color-ink-subtle: #a8a29e;
+  --color-ink: #111827;
+  --color-ink-secondary: #4b5563;
+  --color-ink-muted: #6b7280;
+  --color-ink-subtle: #9ca3af;
 
   /* --color-success-* — genuine availability / success only ------------- */
-  --color-success: #15803d;
+  --color-success: #16a34a;
   --color-success-surface: #f0fdf4;
   --color-success-line: #bbf7d0;
 
-  /* --shadow-* — restrained ------------------------------------------- */
-  --shadow-card: 0 1px 2px 0 rgb(28 25 23 / 0.04);
-  --shadow-raised: 0 1px 3px 0 rgb(28 25 23 / 0.06),
-    0 8px 24px -12px rgb(28 25 23 / 0.12);
-  --shadow-overlay: 0 12px 40px -12px rgb(28 25 23 / 0.25);
+  /* --shadow-* — refined elevated shadows ------------------------------ */
+  --shadow-card: 0 4px 20px -2px rgba(17, 24, 39, 0.05);
+  --shadow-raised: 0 10px 30px -4px rgba(17, 24, 39, 0.08);
+  --shadow-glow: 0 12px 30px -6px rgba(193, 18, 31, 0.35);
+  --shadow-overlay: 0 20px 48px -12px rgba(17, 24, 39, 0.2);
 
   /* --animate-* --------------------------------------------------------- */
   --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+  --animate-pulse-slow: pulseSlow 3s ease-in-out infinite;
 
   @keyframes shimmer {
     0%,
@@ -58,6 +59,17 @@
       opacity: 0.55;
     }
     50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulseSlow {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.85;
+    }
+    50% {
+      transform: scale(1.05);
       opacity: 1;
     }
   }
