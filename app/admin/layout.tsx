@@ -1,6 +1,7 @@
 import { AppShell } from "@/components/layout/app-shell";
 import { adminNavigation } from "@/components/layout/navigation";
 import { requireAdminUser } from "@/lib/auth/guards";
+import { getUnreadNotificationCount } from "@/lib/services/notification.service";
 
 /**
  * Every route under `/admin` passes through this layout, and the role is
@@ -11,6 +12,7 @@ export default async function AdminLayout({
   children,
 }: LayoutProps<"/admin">) {
   const admin = await requireAdminUser();
+  const unreadCount = await getUnreadNotificationCount(admin.id);
 
   return (
     <AppShell
@@ -18,6 +20,7 @@ export default async function AdminLayout({
       items={adminNavigation}
       homeHref="/admin"
       areaLabel="Admin"
+      unreadCount={unreadCount}
     >
       {children}
     </AppShell>

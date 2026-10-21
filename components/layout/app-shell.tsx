@@ -1,27 +1,28 @@
 import { BrandLogo } from "@/components/layout/brand";
 import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
-import { MobileHeader } from "@/components/layout/mobile-header";
+import { Navbar } from "@/components/layout/navbar";
 import { NavLinks } from "@/components/layout/nav-links";
 import type { NavItem } from "@/components/layout/navigation";
-import { SignOutButton, UserIdentity } from "@/components/layout/user-identity";
 import type { SessionUserDTO } from "@/types/user";
 
 /**
  * The signed-in application shell: a persistent sidebar on large screens and a
- * disclosure menu on small ones. Rendered separately for the member area and
- * the admin area so the two never share navigation state.
+ * unified top navbar across desktop and mobile. Profile icon is placed on the
+ * top navbar right side, keeping the sidebar focused solely on navigation.
  */
 export function AppShell({
   user,
   items,
   homeHref,
   areaLabel,
+  unreadCount = 0,
   children,
 }: {
   user: SessionUserDTO;
   items: NavItem[];
   homeHref: string;
   areaLabel: string;
+  unreadCount?: number;
   children: React.ReactNode;
 }) {
   return (
@@ -33,6 +34,7 @@ export function AppShell({
         Skip to main content
       </a>
 
+      {/* Desktop Sidebar: Brand Logo + NavLinks only (No profile in sidebar) */}
       <aside className="hidden border-r border-line bg-surface lg:sticky lg:top-0 lg:flex lg:h-dvh lg:flex-col">
         <div className="border-b border-line px-5 py-4">
           <BrandLogo href={homeHref} />
@@ -41,23 +43,16 @@ export function AppShell({
         <nav aria-label="Main" className="flex-1 overflow-y-auto p-3">
           <NavLinks items={items} />
         </nav>
-
-        <div className="space-y-1 border-t border-line p-3">
-          <UserIdentity
-            user={user}
-            areaLabel={areaLabel}
-            className="mb-1 rounded-lg p-2"
-          />
-          <SignOutButton />
-        </div>
       </aside>
 
+      {/* Main Content Area with Top Navbar */}
       <div className="flex min-h-dvh flex-col">
-        <MobileHeader
+        <Navbar
           user={user}
           items={items}
           homeHref={homeHref}
           areaLabel={areaLabel}
+          unreadCount={unreadCount}
         />
 
         <main id="main-content" className="flex-1 px-4 pb-28 pt-5 sm:px-6 sm:pb-12 sm:pt-8 lg:px-10 lg:pb-10">

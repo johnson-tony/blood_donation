@@ -17,7 +17,9 @@ export async function markNotificationReadAction(formData: FormData) {
     revalidatePath("/admin/notifications");
   }
 
-  if (href && href.startsWith("/")) redirect(href);
+  if (href && href.startsWith("/") && href !== "/notifications" && href !== "/admin/notifications") {
+    redirect(href);
+  }
 }
 
 export async function markAllNotificationsReadAction() {
